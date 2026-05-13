@@ -666,7 +666,7 @@ function nuevoJuego() {
 
     const opcionesHTML =
         juegoActual.opciones.map(opcion => `
-            <button class="option" onclick="validarJuego('${opcion}')">
+            <button class="option" id="opcion-${opcion}" onclick="validarJuego('${opcion}', this)">
                 <span>${juegoActual.emoji}</span>
                 ${opcion}
             </button>
@@ -677,7 +677,30 @@ function nuevoJuego() {
     hablar(`Ximena, selecciona la palabra ${juegoActual.correcta}`)
 }
 
-function validarJuego(opcion) {
+function validarJuego(opcion, elemento) {
+    try {
+        recognition.stop()
+        escuchando = false
+    } catch (e) {}
+
+    speechSynthesis.cancel()
+
+    if (elemento) {
+        elemento.style.background = 'linear-gradient(135deg, #0ec2a5, #0aa994)'
+        elemento.style.color = 'white'
+        elemento.style.transform = 'scale(1.1)'
+        elemento.style.boxShadow = '0 12px 30px rgba(14, 194, 165, 0.4)'
+
+        const botones = document.querySelectorAll('.option')
+        botones.forEach(btn => {
+            if (btn !== elemento) {
+                btn.disabled = true
+                btn.style.opacity = '0.5'
+                btn.style.pointerEvents = 'none'
+            }
+        })
+    }
+
     if (opcion === juegoActual.correcta) {
         puntaje++
 
