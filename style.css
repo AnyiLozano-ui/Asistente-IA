@@ -782,8 +782,8 @@ body {
 .memoria-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    max-width: 600px;
+    gap: 16px;
+    max-width: 550px;
     width: 100%;
     padding: 0;
     margin: 0;
@@ -791,18 +791,18 @@ body {
 }
 
 .memoria-carta {
-    aspect-ratio: 1;
+    aspect-ratio: 0.95;
     position: relative;
     background: linear-gradient(145deg, #67c5ff, #3da9f5);
     border: none;
-    border-radius: 20px;
+    border-radius: 16px;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 48px;
     font-weight: 900;
-    min-height: 160px;
+    min-height: 140px;
     perspective: 1000px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
@@ -832,7 +832,7 @@ body {
     color: white;
     z-index: 2;
     transition: opacity 0.3s ease;
-    font-size: 60px;
+    font-size: 48px;
 }
 
 .memoria-cara-trasera {
