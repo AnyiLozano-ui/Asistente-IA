@@ -15,6 +15,8 @@ let puntaje = 0
 let intentos = 0
 let escuchando = false
 let vozMujer = null
+let silabaActual = null
+let juegoActual = null
 
 const palabrasXimena = [
     { palabra: 'dado', silabas: 'da-do', nivel: 1 },
@@ -22,11 +24,9 @@ const palabrasXimena = [
     { palabra: 'bota', silabas: 'bo-ta', nivel: 1 },
     { palabra: 'vaca', silabas: 'va-ca', nivel: 1 },
     { palabra: 'taza', silabas: 'ta-za', nivel: 1 },
-
     { palabra: 'ventana', silabas: 'ven-ta-na', nivel: 2 },
     { palabra: 'tomate', silabas: 'to-ma-te', nivel: 2 },
     { palabra: 'abuela', silabas: 'a-bue-la', nivel: 2 },
-
     { palabra: 'brazo', silabas: 'bra-zo', nivel: 3 },
     { palabra: 'bravo', silabas: 'bra-vo', nivel: 3 },
     { palabra: 'blusa', silabas: 'blu-sa', nivel: 3 },
@@ -35,6 +35,22 @@ const palabrasXimena = [
     { palabra: 'trapo', silabas: 'tra-po', nivel: 3 },
     { palabra: 'dragón', silabas: 'dra-gón', nivel: 3 },
     { palabra: 'piedra', silabas: 'pie-dra', nivel: 3 },
+]
+
+const silabasJuego = [
+    { silabas: ['bra', 'zo'], palabra: 'brazo' },
+    { silabas: ['tra', 'po'], palabra: 'trapo' },
+    { silabas: ['ta', 'bla'], palabra: 'tabla' },
+    { silabas: ['dra', 'gón'], palabra: 'dragón' },
+    { silabas: ['pie', 'dra'], palabra: 'piedra' },
+    { silabas: ['blu', 'sa'], palabra: 'blusa' },
+]
+
+const juegoPalabras = [
+    { correcta: 'vaca', emoji: '🐄', opciones: ['vaca', 'taza', 'baca'] },
+    { correcta: 'tren', emoji: '🚂', opciones: ['tren', 'tres', 'trapo'] },
+    { correcta: 'brazo', emoji: '💪', opciones: ['brazo', 'braso', 'vaso'] },
+    { correcta: 'tomate', emoji: '🍅', opciones: ['tomate', 'camote', 'tomete'] },
 ]
 
 function cargarVoz() {
@@ -89,6 +105,13 @@ function iniciarMicrofono() {
     }
 }
 
+function limpiarJuegoOpciones() {
+    const contenedor = document.getElementById('juegoOpciones')
+    if (contenedor) {
+        contenedor.innerHTML = ''
+    }
+}
+
 function reiniciarJuego(nuevoModo) {
     modo = nuevoModo
     puntaje = 0
@@ -97,7 +120,71 @@ function reiniciarJuego(nuevoModo) {
     document.getElementById('puntaje').textContent = '⭐ Puntaje: 0'
     document.getElementById('respuesta').textContent = ''
 
+    limpiarJuegoOpciones()
     iniciarMicrofono()
+}
+
+function abrirActividad(tipo) {
+    document.getElementById('menu').classList.remove('active')
+    document.getElementById('logros').classList.remove('active')
+    document.getElementById('actividad').classList.add('active')
+
+    document.getElementById('respuesta').textContent = ''
+    document.getElementById('puntaje').textContent = '⭐ Puntaje: 0'
+
+    limpiarJuegoOpciones()
+
+    if (tipo === 'pronunciacion') {
+        document.getElementById('tituloActividad').textContent =
+            '🗣️ Pronunciación'
+        iniciarPronunciacion()
+    }
+
+    if (tipo === 'silabas') {
+        document.getElementById('tituloActividad').textContent =
+            '🔤 Sílabas'
+        iniciarSilabas()
+    }
+
+    if (tipo === 'tablas') {
+        document.getElementById('tituloActividad').textContent =
+            '✖️ Tablas de multiplicar'
+        iniciarTablas()
+    }
+
+    if (tipo === 'matematicas') {
+        document.getElementById('tituloActividad').textContent =
+            '➕➖ Sumas y restas'
+        iniciarSumasRestas()
+    }
+
+    if (tipo === 'juego') {
+        document.getElementById('tituloActividad').textContent =
+            '🎮 Atrapa la palabra'
+        iniciarJuego()
+    }
+}
+
+function abrirLogros() {
+    document.getElementById('menu').classList.remove('active')
+    document.getElementById('actividad').classList.remove('active')
+    document.getElementById('logros').classList.add('active')
+}
+
+function volverMenu() {
+    modo = ''
+    escuchando = false
+
+    try {
+        recognition.stop()
+    } catch (e) {}
+
+    speechSynthesis.cancel()
+    limpiarJuegoOpciones()
+
+    document.getElementById('actividad').classList.remove('active')
+    document.getElementById('logros').classList.remove('active')
+    document.getElementById('menu').classList.add('active')
 }
 
 function iniciarPronunciacion() {
@@ -105,6 +192,14 @@ function iniciarPronunciacion() {
 
     hablar('Hola Ximena, vamos a practicar palabras y sílabas', () => {
         nuevaPalabra()
+    })
+}
+
+function iniciarSilabas() {
+    reiniciarJuego('silabas')
+
+    hablar('Hola Ximena. Vamos a unir sílabas', () => {
+        nuevaSilaba()
     })
 }
 
@@ -121,6 +216,14 @@ function iniciarSumasRestas() {
 
     hablar('Hola Ximena, vamos a practicar sumas y restas', () => {
         nuevaOperacion()
+    })
+}
+
+function iniciarJuego() {
+    reiniciarJuego('juego')
+
+    hablar('Hola Ximena. Vamos a jugar atrapa la palabra', () => {
+        nuevoJuego()
     })
 }
 
@@ -141,6 +244,27 @@ function nuevaPalabra() {
 
     hablar(
         `Escucha despacio Ximena. ${silabasActuales}. Ahora di la palabra ${palabraActual}`
+    )
+}
+
+function nuevaSilaba() {
+    intentos = 0
+
+    silabaActual =
+        silabasJuego[Math.floor(Math.random() * silabasJuego.length)]
+
+    document.getElementById('pregunta').innerHTML =
+        `🔤 Une las sílabas 🔤<br><br>
+        <span style="font-size:70px;color:#ff4fa3;">
+            ${silabaActual.silabas[0]}
+        </span>
+        +
+        <span style="font-size:70px;color:#7c3aed;">
+            ${silabaActual.silabas[1]}
+        </span>`
+
+    hablar(
+        `${silabaActual.silabas[0]} ... ${silabaActual.silabas[1]}. ¿Qué palabra forman?`
     )
 }
 
@@ -188,6 +312,46 @@ function nuevaOperacion() {
     }
 }
 
+function nuevoJuego() {
+    intentos = 0
+
+    juegoActual =
+        juegoPalabras[Math.floor(Math.random() * juegoPalabras.length)]
+
+    document.getElementById('pregunta').innerHTML =
+        `🎮 Atrapa la palabra correcta<br><br>
+         👂 Escucha atentamente`
+
+    const opcionesHTML =
+        juegoActual.opciones.map(opcion => `
+            <button class="option" onclick="validarJuego('${opcion}')">
+                <span>${juegoActual.emoji}</span>
+                ${opcion}
+            </button>
+        `).join('')
+
+    document.getElementById('juegoOpciones').innerHTML = opcionesHTML
+
+    hablar(`Ximena, selecciona la palabra ${juegoActual.correcta}`)
+}
+
+function validarJuego(opcion) {
+    if (opcion === juegoActual.correcta) {
+        puntaje++
+
+        document.getElementById('puntaje').textContent =
+            '⭐ Puntaje: ' + puntaje
+
+        hablar('Muy bien Ximena. Encontraste la palabra correcta', () => {
+            setTimeout(() => {
+                nuevoJuego()
+            }, 2000)
+        })
+    } else {
+        hablar('Casi Ximena. Intenta otra vez')
+    }
+}
+
 recognition.onresult = function(event) {
     const texto =
         event.results[0][0].transcript.toLowerCase().trim()
@@ -197,6 +361,10 @@ recognition.onresult = function(event) {
 
     if (modo === 'pronunciacion') {
         validarPronunciacion(texto)
+    }
+
+    if (modo === 'silabas') {
+        validarSilabas(texto)
     }
 
     if (modo === 'tablas' || modo === 'matematicas') {
@@ -214,11 +382,6 @@ function validarPronunciacion(texto) {
         document.getElementById('puntaje').textContent =
             '⭐ Puntaje: ' + puntaje
 
-        document.getElementById('pregunta').innerHTML =
-            `🎉 ¡Excelente Ximena!<br><br>
-             Dijiste correctamente:<br>
-             <span style="font-size: 45px;">${palabraActual}</span>`
-
         hablar(`Muy bien Ximena. Dijiste correctamente ${palabraActual}`, () => {
             setTimeout(nuevaPalabra, 2000)
         })
@@ -228,20 +391,58 @@ function validarPronunciacion(texto) {
         let mensaje = ''
 
         if (intentos === 1) {
-            mensaje = `Casi Ximena. Escucha por sílabas. ${silabasActuales}. Ahora di ${palabraActual}`
+            mensaje =
+                `Casi Ximena. Escucha por sílabas. ${silabasActuales}. Ahora di ${palabraActual}`
         } else if (intentos === 2) {
-            mensaje = `Vamos despacio. Primero escucha. ${silabasActuales}. Ahora repite la palabra ${palabraActual}`
+            mensaje =
+                `Vamos despacio. Primero escucha. ${silabasActuales}. Ahora repite la palabra ${palabraActual}`
         } else {
-            mensaje = `No pasa nada Ximena. Seguimos con la misma palabra. ${palabraActual}. Repítela lentamente`
+            mensaje =
+                `No pasa nada Ximena. Seguimos con la misma palabra. ${palabraActual}. Repítela lentamente`
         }
 
-        document.getElementById('pregunta').innerHTML =
-            `🌟 Intenta nuevamente 🌟<br><br>
-             👂 Sílabas: <strong>${silabasActuales}</strong><br><br>
-             🎤 Palabra:<br>
-             <span style="font-size: 45px;">${palabraActual}</span>`
-
         hablar(mensaje)
+    }
+}
+
+function validarSilabas(texto) {
+    const correcta = silabaActual.palabra.toLowerCase()
+
+    if (texto.includes(correcta)) {
+        puntaje++
+
+        document.getElementById('puntaje').textContent =
+            '⭐ Puntaje: ' + puntaje
+
+        hablar(`Muy bien Ximena. La palabra era ${correcta}`, () => {
+            setTimeout(nuevaSilaba, 2000)
+        })
+    } else {
+        intentos++
+
+        let mensaje = ''
+
+        if (intentos === 1) {
+            mensaje = 'Casi Ximena. Escucha otra vez'
+        } else if (intentos === 2) {
+            mensaje =
+                `Las sílabas son ${silabaActual.silabas[0]} y ${silabaActual.silabas[1]}`
+        } else {
+            mensaje =
+                `La palabra correcta era ${correcta}. Vamos con otra`
+        }
+
+        hablar(mensaje, () => {
+            if (intentos >= 3) {
+                setTimeout(nuevaSilaba, 2000)
+            } else {
+                setTimeout(() => {
+                    hablar(
+                        `${silabaActual.silabas[0]} ... ${silabaActual.silabas[1]}. ¿Qué palabra forman?`
+                    )
+                }, 1000)
+            }
+        })
     }
 }
 
@@ -269,9 +470,11 @@ function validarMatematicas(texto) {
         if (intentos === 1) {
             mensaje = 'Casi Ximena. Intenta nuevamente'
         } else if (intentos === 2) {
-            mensaje = 'Vamos Ximena. Escucha bien y vuelve a responder'
+            mensaje =
+                'Vamos Ximena. Escucha bien y vuelve a responder'
         } else {
-            mensaje = 'No pasa nada Ximena. Vamos a repetir el ejercicio'
+            mensaje =
+                'No pasa nada Ximena. Vamos a repetir el ejercicio'
         }
 
         hablar(mensaje, () => {
@@ -309,6 +512,9 @@ function convertirTextoANumero(texto) {
         dieciocho: 18,
         diecinueve: 19,
         veinte: 20,
+        veintiuno: 21,
+        veintidós: 22,
+        veintidos: 22,
         treinta: 30,
         cuarenta: 40,
         cincuenta: 50,
@@ -341,47 +547,4 @@ recognition.onend = function() {
             recognition.start()
         } catch (e) {}
     }
-}
-
-function abrirActividad(tipo) {
-    document.getElementById('menu').classList.remove('active')
-    document.getElementById('actividad').classList.add('active')
-
-    document.getElementById('respuesta').textContent = ''
-    document.getElementById('puntaje').textContent = '⭐ Puntaje: 0'
-
-    if (tipo === 'pronunciacion') {
-        document.getElementById('tituloActividad').textContent =
-            '🗣️ Pronunciación'
-        iniciarPronunciacion()
-    }
-
-    if (tipo === 'tablas') {
-        document.getElementById('tituloActividad').textContent =
-            '✖️ Tablas de multiplicar'
-        iniciarTablas()
-    }
-
-    if (tipo === 'matematicas') {
-        document.getElementById('tituloActividad').textContent =
-            '➕➖ Sumas y restas'
-        iniciarSumasRestas()
-    }
-}
-
-function volverMenu() {
-    modo = ''
-    escuchando = false
-
-    try {
-        recognition.stop()
-    } catch (e) {}
-
-    speechSynthesis.cancel()
-
-    document.getElementById('actividad').classList.remove('active')
-    document.getElementById('menu').classList.add('active')
-
-    document.getElementById('pregunta').textContent =
-        'Presiona una opción para comenzar'
 }

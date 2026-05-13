@@ -3,30 +3,58 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Aprendiendo con Ximena</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mundo de Ximena</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
     <main class="app">
+
         <section id="menu" class="screen active">
-            <h1>🌈 Aprendiendo con Ximena</h1>
-            <p class="subtitle">Elige una actividad para comenzar</p>
+            <div class="hero">
+                <div>
+                    <h1>🌈 Mundo de Ximena</h1>
+                    <p>Hola Ximena 👋 ¿qué quieres practicar hoy?</p>
+                </div>
+                <div class="mascot">🐰</div>
+            </div>
 
             <div class="cards">
                 <button class="card pink" onclick="abrirActividad('pronunciacion')">
-          🗣️
-          <span>Pronunciación</span>
+          <span class="icon">🗣️</span>
+          <strong>Pronunciación</strong>
+          <small>Palabras y sílabas</small>
+        </button>
+
+                <button class="card blue" onclick="abrirActividad('silabas')">
+          <span class="icon">🔤</span>
+          <strong>Sílabas</strong>
+          <small>Da, ba, tra, bra</small>
         </button>
 
                 <button class="card purple" onclick="abrirActividad('tablas')">
-          ✖️
-          <span>Tablas</span>
+          <span class="icon">✖️</span>
+          <strong>Tablas</strong>
+          <small>Multiplicación</small>
         </button>
 
                 <button class="card green" onclick="abrirActividad('matematicas')">
-          ➕➖
-          <span>Sumas y restas</span>
+          <span class="icon">➕➖</span>
+          <strong>Matemáticas</strong>
+          <small>Sumas y restas</small>
+        </button>
+
+                <button class="card yellow" onclick="abrirActividad('juego')">
+          <span class="icon">🎮</span>
+          <strong>Juego</strong>
+          <small>Atrapa la palabra</small>
+        </button>
+
+                <button class="card orange" onclick="abrirLogros()">
+          <span class="icon">⭐</span>
+          <strong>Logros</strong>
+          <small>Estrellas ganadas</small>
         </button>
             </div>
         </section>
@@ -35,6 +63,7 @@
             <button class="back" onclick="volverMenu()">⬅ Volver</button>
 
             <h2 id="tituloActividad">Actividad</h2>
+            <div id="juegoOpciones" class="game-options"></div>
 
             <div id="pregunta" class="question">
                 Presiona una opción para comenzar
@@ -43,6 +72,21 @@
             <h3 id="respuesta" class="answer"></h3>
             <h3 id="puntaje" class="score">⭐ Puntaje: 0</h3>
         </section>
+
+        <section id="logros" class="screen">
+            <button class="back" onclick="volverMenu()">⬅ Volver</button>
+
+            <h2>⭐ Mis logros</h2>
+
+            <div class="achievements">
+                <div class="achievement">🏆 Palabras correctas: <span id="logroPalabras">0</span></div>
+                <div class="achievement">✖️ Tablas correctas: <span id="logroTablas">0</span></div>
+                <div class="achievement">➕ Matemáticas correctas: <span id="logroMate">0</span></div>
+                <div class="achievement">🌟 Estrellas: <span id="logroEstrellas">0</span></div>
+            </div>
+            <div id="pregunta" class="question"></div>
+        </section>
+
     </main>
 
     <script src="script.js"></script>
