@@ -17,6 +17,9 @@ let escuchando = false
 let vozMujer = null
 let silabaActual = null
 let juegoActual = null
+let tablaSeleccionada = null
+let tipoOperacionActual = null
+let estadoMate = 'selector' // 'selector', 'grid', 'resolviendo'
 
 const palabrasXimena = [
     { palabra: 'dado', silabas: 'da-do', nivel: 1 },
@@ -84,13 +87,30 @@ function hablar(texto, callback = null) {
         voz.voice = vozMujer
     }
 
+    let callbackEjecutado = false
+
     voz.onend = () => {
+        if (callbackEjecutado) return
+        callbackEjecutado = true
+
         try {
             recognition.start()
             escuchando = true
-        } catch (e) {}
+        } catch (e) {
+            console.error('Error iniciando reconocimiento:', e)
+        }
 
-        if (callback) callback()
+        if (callback) {
+            callback()
+        }
+    }
+
+    voz.onerror = () => {
+        console.error('Error en síntesis de voz')
+        if (!callbackEjecutado && callback) {
+            callbackEjecutado = true
+            callback()
+        }
     }
 
     speechSynthesis.speak(voz)
@@ -101,7 +121,9 @@ function iniciarMicrofono() {
         try {
             recognition.start()
             escuchando = true
-        } catch (e) {}
+        } catch (e) {
+            console.error('Error iniciando micrófono:', e)
+        }
     }
 }
 
@@ -116,53 +138,35 @@ function reiniciarJuego(nuevoModo) {
     modo = nuevoModo
     puntaje = 0
     intentos = 0
+    escuchando = false
 
     document.getElementById('puntaje').textContent = '⭐ Puntaje: 0'
     document.getElementById('respuesta').textContent = ''
 
     limpiarJuegoOpciones()
-    iniciarMicrofono()
 }
 
-function abrirActividad(tipo) {
+function abrirActividad(tipo, colorClass) {
+    window.open(`activity.html?tipo=${tipo}&color=${colorClass}`, '_blank')
+}
+
+function abrirMenuJuegos() {
     document.getElementById('menu').classList.remove('active')
     document.getElementById('logros').classList.remove('active')
-    document.getElementById('actividad').classList.add('active')
+    document.getElementById('juegos-menu').classList.add('active')
+}
 
-    document.getElementById('respuesta').textContent = ''
-    document.getElementById('puntaje').textContent = '⭐ Puntaje: 0'
-
-    limpiarJuegoOpciones()
-
-    if (tipo === 'pronunciacion') {
-        document.getElementById('tituloActividad').textContent =
-            '🗣️ Pronunciación'
-        iniciarPronunciacion()
+function abrirJuegoEnVentana(tipo) {
+    const colorMap = {
+        'juego': 'yellow',
+        'memoria': 'blue',
+        'emojis': 'purple',
+        'colores': 'green',
+        'rompecabezas': 'orange',
+        'sonidos': 'pink'
     }
-
-    if (tipo === 'silabas') {
-        document.getElementById('tituloActividad').textContent =
-            '🔤 Sílabas'
-        iniciarSilabas()
-    }
-
-    if (tipo === 'tablas') {
-        document.getElementById('tituloActividad').textContent =
-            '✖️ Tablas de multiplicar'
-        iniciarTablas()
-    }
-
-    if (tipo === 'matematicas') {
-        document.getElementById('tituloActividad').textContent =
-            '➕➖ Sumas y restas'
-        iniciarSumasRestas()
-    }
-
-    if (tipo === 'juego') {
-        document.getElementById('tituloActividad').textContent =
-            '🎮 Atrapa la palabra'
-        iniciarJuego()
-    }
+    const color = colorMap[tipo] || 'yellow'
+    window.open(`activity.html?tipo=${tipo}&color=${color}`, '_blank')
 }
 
 function abrirLogros() {
@@ -172,18 +176,8 @@ function abrirLogros() {
 }
 
 function volverMenu() {
-    modo = ''
-    escuchando = false
-
-    try {
-        recognition.stop()
-    } catch (e) {}
-
-    speechSynthesis.cancel()
-    limpiarJuegoOpciones()
-
-    document.getElementById('actividad').classList.remove('active')
     document.getElementById('logros').classList.remove('active')
+    document.getElementById('juegos-menu').classList.remove('active')
     document.getElementById('menu').classList.add('active')
 }
 
@@ -205,18 +199,325 @@ function iniciarSilabas() {
 
 function iniciarTablas() {
     reiniciarJuego('tablas')
+    tablaSeleccionada = null
 
     hablar('Hola Ximena, vamos a practicar tablas de multiplicar', () => {
-        nuevaTabla()
+        mostrarSelectorTablas()
     })
+}
+
+function mostrarSelectorTablas() {
+    const selectorTablas = document.getElementById('selectorTablas')
+    const pregunta = document.getElementById('pregunta')
+    const juegoOpciones = document.getElementById('juegoOpciones')
+    const respuesta = document.getElementById('respuesta')
+    const puntaje = document.getElementById('puntaje')
+
+    if (selectorTablas) selectorTablas.style.display = 'block'
+    if (pregunta) pregunta.style.display = 'none'
+    if (juegoOpciones) juegoOpciones.style.display = 'none'
+    if (respuesta) respuesta.style.display = 'none'
+    if (puntaje) puntaje.style.display = 'none'
+
+    const contenedorTablas = document.getElementById('contenedorTablas')
+    if (contenedorTablas) {
+        contenedorTablas.innerHTML = ''
+
+        // Botón para practicar todas las tablas
+        const btnTodas = document.createElement('button')
+        btnTodas.className = `tabla-card tabla-todas`
+        btnTodas.innerHTML = `
+            <div class="tabla-numero">🎓</div>
+            <div class="tabla-label">Practicar todas</div>
+        `
+        btnTodas.onclick = () => seleccionarTabla(null)
+        contenedorTablas.appendChild(btnTodas)
+
+        for (let i = 1; i <= 10; i++) {
+            const btn = document.createElement('button')
+            btn.className = `tabla-card tabla-${i}`
+            btn.innerHTML = `
+                <div class="tabla-numero">✖️ ${i}</div>
+                <div class="tabla-label">Tabla del ${i}</div>
+            `
+            btn.onclick = () => seleccionarTabla(i)
+            contenedorTablas.appendChild(btn)
+        }
+    }
+
+    hablar('Selecciona una tabla. Puedes practicar todas las tablas o elegir una específica')
+}
+
+function seleccionarTabla(numero) {
+    tablaSeleccionada = numero
+    const selectorTablas = document.getElementById('selectorTablas')
+    const pregunta = document.getElementById('pregunta')
+    const juegoOpciones = document.getElementById('juegoOpciones')
+    const respuesta = document.getElementById('respuesta')
+    const puntaje = document.getElementById('puntaje')
+
+    if (selectorTablas) selectorTablas.style.display = 'none'
+    if (pregunta) pregunta.style.display = 'block'
+    if (juegoOpciones) juegoOpciones.style.display = 'grid'
+    if (respuesta) respuesta.style.display = 'block'
+    if (puntaje) puntaje.style.display = 'block'
+
+    if (numero === null) {
+        hablar('Excelente. Vamos a practicar todas las tablas. Repite después de mí', () => {
+            nuevaTablaPractica()
+        })
+    } else {
+        const mensaje = `Excelente. Vamos a practicar la tabla del ${numero}`
+        hablar(mensaje, () => {
+            nuevaTabla()
+        })
+    }
 }
 
 function iniciarSumasRestas() {
     reiniciarJuego('matematicas')
 
     hablar('Hola Ximena, vamos a practicar sumas y restas', () => {
-        nuevaOperacion()
+        mostrarSelectorOperacion()
     })
+}
+
+function mostrarSelectorOperacion() {
+    estadoMate = 'selector'
+    const pregunta = document.getElementById('pregunta')
+    const juegoOpciones = document.getElementById('juegoOpciones')
+    const respuesta = document.getElementById('respuesta')
+    const puntaje = document.getElementById('puntaje')
+    const titulo = document.getElementById('tituloActividad')
+
+    if (titulo) {
+        titulo.textContent = '🧮 Operaciones'
+    }
+
+    pregunta.innerHTML = `
+        <div style="font-size: 28px; margin-bottom: 20px;">🎯 ¿Qué deseas practicar?</div>
+        <div style="font-size: 18px; color: #666; margin-bottom: 30px;">Selecciona una opción para jugar</div>
+    `
+
+    juegoOpciones.innerHTML = `
+        <button class="operacion-btn suma-btn" id="btn-suma" onclick="seleccionarTipoOperacion('suma')">
+            <span class="operacion-icon">➕</span>
+            <span class="operacion-texto">Sumas</span>
+        </button>
+        <button class="operacion-btn resta-btn" id="btn-resta" onclick="seleccionarTipoOperacion('resta')">
+            <span class="operacion-icon">➖</span>
+            <span class="operacion-texto">Restas</span>
+        </button>
+        <button class="operacion-btn mixto-btn" id="btn-mixto" onclick="seleccionarTipoOperacion('mixto')">
+            <span class="operacion-icon">🎲</span>
+            <span class="operacion-texto">Mixto</span>
+        </button>
+    `
+
+    if (respuesta) respuesta.style.display = 'none'
+    if (puntaje) puntaje.style.display = 'block'
+
+    hablar('Puedes seleccionar sumas, restas o una mezcla')
+}
+
+function seleccionarTipoOperacion(tipo) {
+    modo = 'matematicas'
+    tipoOperacionActual = tipo
+    const respuesta = document.getElementById('respuesta')
+
+    // Detener el micrófono para matemáticas
+    try {
+        recognition.stop()
+        escuchando = false
+    } catch (e) {}
+
+    if (respuesta) respuesta.style.display = 'none'
+
+    // Resaltar el botón seleccionado
+    const btnSuma = document.getElementById('btn-suma')
+    const btnResta = document.getElementById('btn-resta')
+    const btnMixto = document.getElementById('btn-mixto')
+
+    // Limpiar selección anterior
+    if (btnSuma) {
+        btnSuma.style.background = ''
+        btnSuma.style.transform = ''
+        btnSuma.style.boxShadow = ''
+    }
+    if (btnResta) {
+        btnResta.style.background = ''
+        btnResta.style.transform = ''
+        btnResta.style.boxShadow = ''
+    }
+    if (btnMixto) {
+        btnMixto.style.background = ''
+        btnMixto.style.transform = ''
+        btnMixto.style.boxShadow = ''
+    }
+
+    // Resaltar el seleccionado
+    if (tipo === 'suma' && btnSuma) {
+        btnSuma.style.background = 'linear-gradient(135deg, #0ec2a5, #0aa994)'
+        btnSuma.style.color = 'white'
+        btnSuma.style.transform = 'scale(1.08)'
+        btnSuma.style.boxShadow = '0 12px 30px rgba(14, 194, 165, 0.4)'
+    } else if (tipo === 'resta' && btnResta) {
+        btnResta.style.background = 'linear-gradient(135deg, #ff4fa3, #e63a90)'
+        btnResta.style.color = 'white'
+        btnResta.style.transform = 'scale(1.08)'
+        btnResta.style.boxShadow = '0 12px 30px rgba(255, 79, 163, 0.4)'
+    } else if (tipo === 'mixto' && btnMixto) {
+        btnMixto.style.background = 'linear-gradient(135deg, #8057ff, #6b42e5)'
+        btnMixto.style.color = 'white'
+        btnMixto.style.transform = 'scale(1.08)'
+        btnMixto.style.boxShadow = '0 12px 30px rgba(128, 87, 255, 0.4)'
+    }
+
+    const mensajeInicio = tipo === 'suma' ? 'Excelente, vamos a practicar sumas. Elige la respuesta correcta' :
+        tipo === 'resta' ? 'Excelente, vamos a practicar restas. Elige la respuesta correcta' :
+        'Excelente, vamos a practicar una mezcla. Elige la respuesta correcta'
+
+    hablar(mensajeInicio, () => {
+        mostrarGridOperaciones(tipo)
+    })
+}
+
+function generarOperacion(tipo) {
+    const numero1 = Math.floor(Math.random() * 20) + 1
+    const numero2 = Math.floor(Math.random() * 20) + 1
+
+    let esSuma
+    if (tipo === 'suma') {
+        esSuma = true
+    } else if (tipo === 'resta') {
+        esSuma = false
+    } else {
+        esSuma = Math.random() > 0.5
+    }
+
+    if (esSuma) {
+        const resultado = numero1 + numero2
+        return {
+            numero1,
+            numero2,
+            tipo: 'suma',
+            resultado,
+            texto: `${numero1} + ${numero2}`
+        }
+    } else {
+        const mayor = Math.max(numero1, numero2)
+        const menor = Math.min(numero1, numero2)
+        const resultado = mayor - menor
+        return {
+            numero1: mayor,
+            numero2: menor,
+            tipo: 'resta',
+            resultado,
+            texto: `${mayor} - ${menor}`
+        }
+    }
+}
+
+function mostrarGridOperaciones(tipo) {
+    estadoMate = 'grid'
+    const pregunta = document.getElementById('pregunta')
+    const juegoOpciones = document.getElementById('juegoOpciones')
+    const titulo = document.getElementById('tituloActividad')
+
+    const tituloTipo = tipo === 'suma' ? '➕ Sumas' : tipo === 'resta' ? '➖ Restas' : '🎲 Mixto'
+    if (titulo) {
+        titulo.textContent = tituloTipo
+    }
+
+    pregunta.innerHTML = `
+        <div style="font-size: 28px; margin-bottom: 15px;">${tituloTipo}</div>
+        <div style="font-size: 18px; color: #666; margin-bottom: 20px;">👇 Haz clic en una operación para resolver 👇</div>
+    `
+
+    const operaciones = []
+    for (let i = 0; i < 4; i++) {
+        operaciones.push(generarOperacion(tipo))
+    }
+
+    let html = '<div class="operaciones-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 600px; margin: 0 auto; width: 100%;">'
+    operaciones.forEach((op, index) => {
+        html += `
+            <button class="operacion-card ${op.tipo}-card" id="op-btn-${index}" onclick="resolverOperacion(${op.numero1}, ${op.numero2}, '${op.tipo}', ${op.resultado}, ${index})" style="background: white; border: 3px solid #0ec2a5; border-radius: 20px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 140px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+                <div class="operacion-display" style="font-size: 32px; font-weight: bold; margin-bottom: 10px; color: #333;">${op.texto}</div>
+                <div class="operacion-icon-card" style="font-size: 40px;">${op.tipo === 'suma' ? '➕' : '➖'}</div>
+            </button>
+        `
+    })
+    html += '</div>'
+
+    juegoOpciones.innerHTML = html
+}
+
+function resolverOperacion(num1, num2, tipo, resultado, indice) {
+    estadoMate = 'resolviendo'
+    const pregunta = document.getElementById('pregunta')
+    const juegoOpciones = document.getElementById('juegoOpciones')
+    const titulo = document.getElementById('tituloActividad')
+
+    const tituloTipo = tipoOperacionActual === 'suma' ? '➕ Sumas' : tipoOperacionActual === 'resta' ? '➖ Restas' : '🎲 Mixto'
+    if (titulo) {
+        titulo.textContent = tituloTipo
+    }
+
+    // Marcar el botón como seleccionado
+    const btnSeleccionado = document.getElementById(`op-btn-${indice}`)
+    if (btnSeleccionado) {
+        btnSeleccionado.style.background = 'linear-gradient(135deg, #0ec2a5, #0aa994)'
+        btnSeleccionado.style.color = 'white'
+        btnSeleccionado.style.boxShadow = '0 8px 24px rgba(14, 194, 165, 0.4)'
+        btnSeleccionado.style.transform = 'scale(0.95)'
+
+        // Cambiar el color del texto dentro del botón
+        const display = btnSeleccionado.querySelector('.operacion-display')
+        const icon = btnSeleccionado.querySelector('.operacion-icon-card')
+        if (display) display.style.color = 'white'
+    }
+
+    // Mostrar la operación seleccionada
+    const operacion = tipo === 'suma' ? `${num1} + ${num2}` : `${num1} - ${num2}`
+    pregunta.innerHTML = `
+        <div style="font-size: 48px; margin-bottom: 20px;">${tipo === 'suma' ? '➕' : '➖'}</div>
+        <div style="font-size: 48px; font-weight: bold; margin: 20px 0; color: #0ec2a5;">${operacion}</div>
+        <div style="font-size: 24px; color: #666; margin-top: 20px;">👇 Selecciona la respuesta correcta 👇</div>
+    `
+
+    // Generar opciones de respuesta (correcta + 2 incorrectas)
+    const opciones = [resultado]
+    while (opciones.length < 3) {
+        const opcion = Math.floor(Math.random() * 40) + 1
+        if (!opciones.includes(opcion)) {
+            opciones.push(opcion)
+        }
+    }
+
+    // Barajar opciones
+    for (let i = opciones.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [opciones[i], opciones[j]] = [opciones[j], opciones[i]]
+    }
+
+    let html = '<div class="respuestas-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 600px; margin: 0 auto; width: 100%;">'
+    opciones.forEach(opcion => {
+        const esCorrecta = opcion === resultado
+        html += `
+            <button onclick="verificarRespuesta(${opcion}, ${resultado}, '${tipo}')" style="background: linear-gradient(135deg, #8057ff, #6b42e5); border: none; border-radius: 20px; padding: 20px; font-size: 32px; font-weight: 900; color: white; cursor: pointer; display: flex; justify-content: center; align-items: center; min-height: 120px; box-shadow: 0 6px 16px rgba(128, 87, 255, 0.25); transition: all 0.3s ease;">
+                <span style="font-size: 48px; font-weight: bold;">${opcion}</span>
+            </button>
+        `
+    })
+    html += '</div>'
+
+    juegoOpciones.innerHTML = html
+
+    respuestaCorrecta = resultado
+    setTimeout(() => {
+        hablar(`¿Cuánto es ${num1} ${tipo === 'suma' ? 'más' : 'menos'} ${num2}?`)
+    }, 300)
 }
 
 function iniciarJuego() {
@@ -268,10 +569,26 @@ function nuevaSilaba() {
     )
 }
 
-function nuevaTabla() {
+function nuevaTablaPractica() {
     intentos = 0
 
     const tabla = Math.floor(Math.random() * 10) + 1
+    const multiplicador = Math.floor(Math.random() * 10) + 1
+    const respuesta = tabla * multiplicador
+
+    document.getElementById('pregunta').innerHTML =
+        `✖️ ${tabla} × ${multiplicador} = <span style="color: #ff4fa3; font-size: 48px;">${respuesta}</span><br><br>
+         <span style="font-size: 20px; color: #7c4dff;">Ahora tú, ¡contesta!</span>`
+
+    hablar(
+        `${tabla} por ${multiplicador}. Mira, la respuesta es ${respuesta}. Ahora dime, ¿cuánto es ${tabla} por ${multiplicador}?`
+    )
+}
+
+function nuevaTabla() {
+    intentos = 0
+
+    const tabla = tablaSeleccionada || (Math.floor(Math.random() * 10) + 1)
     const multiplicador = Math.floor(Math.random() * 10) + 1
 
     respuestaCorrecta = tabla * multiplicador
@@ -281,8 +598,49 @@ function nuevaTabla() {
          ¿Cuánto es ${tabla} por ${multiplicador}?`
 
     hablar(
-        `Ximena, estamos en la tabla del ${tabla}. ¿Cuánto es ${tabla} por ${multiplicador}?`
+        `Ximena, ¿cuánto es ${tabla} por ${multiplicador}?`
     )
+}
+
+function nuevaOperacionMejorada(tipo) {
+    intentos = 0
+
+    const numero1 = Math.floor(Math.random() * 20) + 1
+    const numero2 = Math.floor(Math.random() * 20) + 1
+
+    let esSuma
+    if (tipo === 'suma') {
+        esSuma = true
+    } else if (tipo === 'resta') {
+        esSuma = false
+    } else {
+        esSuma = Math.random() > 0.5
+    }
+
+    if (esSuma) {
+        respuestaCorrecta = numero1 + numero2
+
+        document.getElementById('pregunta').innerHTML =
+            `<span style="font-size: 48px;">➕</span><br>
+             <span style="font-size: 32px; color: #0ec2a5;">Suma</span><br><br>
+             <span style="font-size: 56px; font-weight: bold;">${numero1} + ${numero2}</span><br><br>
+             <span style="font-size: 18px; color: #666;">¿Cuál es el resultado?</span>`
+
+        hablar(`Ximena, ¿cuánto es ${numero1} más ${numero2}?`)
+    } else {
+        const mayor = Math.max(numero1, numero2)
+        const menor = Math.min(numero1, numero2)
+
+        respuestaCorrecta = mayor - menor
+
+        document.getElementById('pregunta').innerHTML =
+            `<span style="font-size: 48px;">➖</span><br>
+             <span style="font-size: 32px; color: #ff4fa3;">Resta</span><br><br>
+             <span style="font-size: 56px; font-weight: bold;">${mayor} - ${menor}</span><br><br>
+             <span style="font-size: 18px; color: #666;">¿Cuál es el resultado?</span>`
+
+        hablar(`Ximena, ¿cuánto es ${mayor} menos ${menor}?`)
+    }
 }
 
 function nuevaOperacion() {
@@ -353,21 +711,36 @@ function validarJuego(opcion) {
 }
 
 recognition.onresult = function(event) {
-    const texto =
-        event.results[0][0].transcript.toLowerCase().trim()
+    if (!event.results || !event.results[0] || !event.results[0][0]) {
+        return
+    }
+
+    const texto = event.results[0][0].transcript.toLowerCase().trim()
+
+    if (!texto || texto.length === 0) {
+        return
+    }
+
+    // En modo práctica de tablas, no validar respuestas, solo decir perfecto y continuar
+    if (modo === 'tablas' && tablaSeleccionada === null) {
+        document.getElementById('respuesta').textContent =
+            '🗣️ Ximena dijo: ' + texto
+        hablar('Perfecto. Muy bien', () => {
+            setTimeout(() => {
+                nuevaTablaPractica()
+            }, 1000)
+        })
+        return
+    }
 
     document.getElementById('respuesta').textContent =
         '🗣️ Ximena dijo: ' + texto
 
     if (modo === 'pronunciacion') {
         validarPronunciacion(texto)
-    }
-
-    if (modo === 'silabas') {
+    } else if (modo === 'silabas') {
         validarSilabas(texto)
-    }
-
-    if (modo === 'tablas' || modo === 'matematicas') {
+    } else if (modo === 'tablas' || modo === 'matematicas') {
         validarMatematicas(texto)
     }
 }
@@ -446,6 +819,44 @@ function validarSilabas(texto) {
     }
 }
 
+function verificarRespuesta(respuestaUsuario, respuestaCorrecta, tipo) {
+    const juegoOpciones = document.getElementById('juegoOpciones')
+    const pregunta = document.getElementById('pregunta')
+
+    if (respuestaUsuario === respuestaCorrecta) {
+        puntaje++
+        document.getElementById('puntaje').textContent = '⭐ Puntaje: ' + puntaje
+
+        pregunta.innerHTML = `
+            <div style="font-size: 80px; margin-bottom: 20px;">✅</div>
+            <div style="font-size: 36px; font-weight: bold; color: #0ec2a5;">¡CORRECTO!</div>
+            <div style="font-size: 24px; color: #666; margin-top: 15px;">Excelente trabajo Ximena 🎉</div>
+        `
+
+        juegoOpciones.innerHTML = ''
+
+        hablar('Muy bien Ximena, ¡lo hiciste correctamente!', () => {
+            setTimeout(() => {
+                mostrarGridOperaciones(tipoOperacionActual)
+            }, 3000)
+        })
+    } else {
+        pregunta.innerHTML = `
+            <div style="font-size: 80px; margin-bottom: 20px;">❌</div>
+            <div style="font-size: 36px; font-weight: bold; color: #ff4fa3;">INCORRECTO</div>
+            <div style="font-size: 28px; color: #333; margin-top: 15px;">La respuesta correcta es: <strong style="font-size: 36px;">${respuestaCorrecta}</strong></div>
+        `
+
+        juegoOpciones.innerHTML = ''
+
+        hablar('No es correcto. La respuesta es ' + respuestaCorrecta + '. Vamos con otra operación más desafiante.', () => {
+            setTimeout(() => {
+                mostrarGridOperaciones(tipoOperacionActual)
+            }, 3500)
+        })
+    }
+}
+
 function validarMatematicas(texto) {
     const numeroUsuario = convertirTextoANumero(texto)
 
@@ -456,9 +867,10 @@ function validarMatematicas(texto) {
         document.getElementById('puntaje').textContent =
             '⭐ Puntaje: ' + puntaje
 
-        hablar('Muy bien Ximena. Contestaste correctamente', () => {
+        hablar('¡Excelente! ¡Muy bien Ximena! 🎉', () => {
             setTimeout(() => {
                 if (modo === 'tablas') nuevaTabla()
+                else if (tipoOperacionActual) nuevaOperacionMejorada(tipoOperacionActual)
                 else nuevaOperacion()
             }, 2000)
         })
@@ -538,7 +950,8 @@ function convertirTextoANumero(texto) {
 }
 
 recognition.onerror = function(event) {
-    console.log('Error:', event.error)
+    console.error('Error de reconocimiento de voz:', event.error)
+    escuchando = false
 }
 
 recognition.onend = function() {

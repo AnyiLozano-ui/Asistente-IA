@@ -4,89 +4,166 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mundo de Ximena</title>
+    <title>MagiMente</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
     <main class="app">
+        <section id="menu" class="screen active home-screen">
+            <div class="top-decoration">
+                <img src="./assets/nube.png" class="cloud-img" />
 
-        <section id="menu" class="screen active">
-            <div class="hero">
-                <div>
-                    <h1>🌈 Mundo de Ximena</h1>
-                    <p>Hola Ximena 👋 ¿qué quieres practicar hoy?</p>
+                <div class="profile">
+                    <img src="./assets/personaje.png" class="brain-img" />
                 </div>
-                <div class="mascot">🐰</div>
             </div>
+
+            <header class="main-header">
+                <h1 class="titulo-magico">
+                    <span class="letra1">M</span>
+                    <span class="letra2">u</span>
+                    <span class="letra3">n</span>
+                    <span class="letra4">d</span>
+                    <span class="letra5">o</span>
+
+                    <br />
+
+                    <span class="letra6">M</span>
+                    <span class="letra7">á</span>
+                    <span class="letra8">g</span>
+                    <span class="letra9">i</span>
+                    <span class="letra10">c</span>
+                    <span class="letra11">o</span>
+                </h1>
+
+                <p>
+                    Una compañera con IA que ayuda a los niños a aprender con diversión, confianza y alegría 💜
+                </p>
+            </header>
 
             <div class="cards">
-                <button class="card pink" onclick="abrirActividad('pronunciacion')">
-          <span class="icon">🗣️</span>
-          <strong>Pronunciación</strong>
-          <small>Palabras y sílabas</small>
-        </button>
+                <button class="card pink" onclick="abrirActividad('pronunciacion', 'pink')">
+						<img
+							src="./assets/bocina.png"
+							class="card-image" />
 
-                <button class="card blue" onclick="abrirActividad('silabas')">
-          <span class="icon">🔤</span>
-          <strong>Sílabas</strong>
-          <small>Da, ba, tra, bra</small>
-        </button>
+						<h2>Pronunciación</h2>
 
-                <button class="card purple" onclick="abrirActividad('tablas')">
-          <span class="icon">✖️</span>
-          <strong>Tablas</strong>
-          <small>Multiplicación</small>
-        </button>
+						<p>Palabras y sílabas</p>
+					</button>
 
-                <button class="card green" onclick="abrirActividad('matematicas')">
-          <span class="icon">➕➖</span>
-          <strong>Matemáticas</strong>
-          <small>Sumas y restas</small>
-        </button>
+                <button class="card blue" onclick="abrirActividad('silabas', 'blue')">
+						<img src="./assets/silabas.png" class="card-image" />
 
-                <button class="card yellow" onclick="abrirActividad('juego')">
-          <span class="icon">🎮</span>
-          <strong>Juego</strong>
-          <small>Atrapa la palabra</small>
-        </button>
+						<h2>Sílabas</h2>
+
+						<p>Da, ba, tra, bra</p>
+					</button>
+
+                <button class="card purple" onclick="abrirActividad('tablas', 'purple')">
+						<img src="./assets/tabalas.png" class="card-image" />
+
+						<h2>Tablas</h2>
+
+						<p>Multiplicación</p>
+					</button>
+
+                <button class="card green" onclick="abrirActividad('matematicas', 'green')">
+						<img
+							src="./assets/mate.png"
+							class="card-image" />
+
+						<h2>Matemáticas</h2>
+
+						<p>Sumas y restas</p>
+					</button>
+
+                <button class="card yellow" onclick="abrirMenuJuegos()">
+						<img src="./assets/juegos.png" class="card-image" />
+
+						<h2>Juegos</h2>
+
+						<p>Descrúbrelos</p>
+					</button>
 
                 <button class="card orange" onclick="abrirLogros()">
-          <span class="icon">⭐</span>
-          <strong>Logros</strong>
-          <small>Estrellas ganadas</small>
-        </button>
+						<img src="./assets/archivos.png" class="card-image" />
+
+						<h2>Material</h2>
+
+						<p>Descargable</p>
+					</button>
             </div>
         </section>
 
-        <section id="actividad" class="screen">
-            <button class="back" onclick="volverMenu()">⬅ Volver</button>
-
-            <h2 id="tituloActividad">Actividad</h2>
-            <div id="juegoOpciones" class="game-options"></div>
-
-            <div id="pregunta" class="question">
-                Presiona una opción para comenzar
-            </div>
-
-            <h3 id="respuesta" class="answer"></h3>
-            <h3 id="puntaje" class="score">⭐ Puntaje: 0</h3>
-        </section>
-
-        <section id="logros" class="screen">
+<section id="logros" class="screen activity-screen">
             <button class="back" onclick="volverMenu()">⬅ Volver</button>
 
             <h2>⭐ Mis logros</h2>
 
             <div class="achievements">
-                <div class="achievement">🏆 Palabras correctas: <span id="logroPalabras">0</span></div>
-                <div class="achievement">✖️ Tablas correctas: <span id="logroTablas">0</span></div>
-                <div class="achievement">➕ Matemáticas correctas: <span id="logroMate">0</span></div>
-                <div class="achievement">🌟 Estrellas: <span id="logroEstrellas">0</span></div>
+                <div class="achievement">
+                    🏆 Palabras correctas: <span id="logroPalabras">0</span>
+                </div>
+                <div class="achievement">
+                    ✖️ Tablas correctas: <span id="logroTablas">0</span>
+                </div>
+                <div class="achievement">
+                    ➕ Matemáticas correctas: <span id="logroMate">0</span>
+                </div>
+                <div class="achievement">
+                    🌟 Estrellas: <span id="logroEstrellas">0</span>
+                </div>
             </div>
-            <div id="pregunta" class="question"></div>
         </section>
 
+        <section id="juegos-menu" class="screen home-screen">
+            <button class="back" onclick="volverMenu()">⬅ Volver</button>
+
+            <header class="menu-header">
+                <h1>🎮 Elige un Juego</h1>
+                <p>Diviértete aprendiendo con estos juegos educativos</p>
+            </header>
+
+            <div class="juegos-grid">
+                <button class="juego-card juego-atrapa" onclick="abrirJuegoEnVentana('juego')">
+                    <div class="juego-icono">🦋</div>
+                    <h3>Atrapa la Palabra</h3>
+                    <p>Encuentra la palabra correcta</p>
+                </button>
+
+                <button class="juego-card juego-memoria" onclick="abrirJuegoEnVentana('memoria')">
+                    <div class="juego-icono">🧠</div>
+                    <h3>Memoria</h3>
+                    <p>Encuentra las parejas</p>
+                </button>
+
+                <button class="juego-card juego-emojis" onclick="abrirJuegoEnVentana('emojis')">
+                    <div class="juego-icono">😊</div>
+                    <h3>Asocia Emojis</h3>
+                    <p>Une emojis con palabras</p>
+                </button>
+
+                <button class="juego-card juego-colores" onclick="abrirJuegoEnVentana('colores')">
+                    <div class="juego-icono">🎨</div>
+                    <h3>Secuencia de Colores</h3>
+                    <p>Completa el patrón</p>
+                </button>
+
+                <button class="juego-card juego-rompecabezas" onclick="abrirJuegoEnVentana('rompecabezas')">
+                    <div class="juego-icono">🧩</div>
+                    <h3>Rompecabezas</h3>
+                    <p>Arma las palabras</p>
+                </button>
+
+                <button class="juego-card juego-sonidos" onclick="abrirJuegoEnVentana('sonidos')">
+                    <div class="juego-icono">🔊</div>
+                    <h3>Asocia Sonidos</h3>
+                    <p>Empareja sonidos y objetos</p>
+                </button>
+            </div>
+        </section>
     </main>
 
     <script src="script.js"></script>
