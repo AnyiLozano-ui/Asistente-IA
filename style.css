@@ -791,7 +791,7 @@ body {
 }
 
 .memoria-carta {
-    aspect-ratio: 1;
+    aspect-ratio: 0.95;
     position: relative;
     background: linear-gradient(145deg, #67c5ff, #3da9f5);
     border: none;
@@ -802,10 +802,11 @@ body {
     align-items: center;
     font-size: 48px;
     font-weight: 900;
-    min-height: 120px;
+    min-height: 140px;
     perspective: 1000px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 .memoria-carta:hover:not(.volteada) {
@@ -821,8 +822,9 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 16px;
-    font-size: 48px;
     font-weight: 900;
+    padding: 12px;
+    box-sizing: border-box;
 }
 
 .memoria-cara-frontal {
@@ -838,9 +840,10 @@ body {
     color: #333;
     opacity: 0;
     z-index: 1;
-    font-size: 32px;
-    padding: 10px;
-    word-wrap: break-word;
+    font-size: 20px;
+    text-align: center;
+    line-height: 1.2;
+    word-break: break-word;
 }
 
 .memoria-carta.volteada .memoria-cara-frontal {
