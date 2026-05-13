@@ -61,6 +61,9 @@ window.addEventListener('DOMContentLoaded', () => {
         } else if (tipo === 'juego') {
             document.getElementById('tituloActividad').textContent = '🎮 Atrapa la palabra'
             iniciarJuego()
+        } else if (tipo === 'memoria') {
+            document.getElementById('tituloActividad').textContent = '🧠 Memoria'
+            iniciarMemoria()
         }
     }, 500)
 })

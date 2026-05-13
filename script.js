@@ -20,6 +20,10 @@ let juegoActual = null
 let tablaSeleccionada = null
 let tipoOperacionActual = null
 let estadoMate = 'selector' // 'selector', 'grid', 'resolviendo'
+let tableroMemoria = []
+let cartasVolteadas = []
+let cartasPareadas = []
+let bloquearTablero = false
 
 const palabrasXimena = [
     { palabra: 'dado', silabas: 'da-do', nivel: 1 },
@@ -149,6 +153,17 @@ const juegoPalabras = [
     { correcta: 'azul', emoji: '🔵', opciones: ['azul', 'azur', 'azol'] },
     { correcta: 'amarillo', emoji: '🟡', opciones: ['amarillo', 'amaríllo', 'amarilo'] },
     { correcta: 'verde', emoji: '🟢', opciones: ['verde', 'vende', 'verdi'] },
+]
+
+const paresMemoria = [
+    { id: 1, emoji: '🐱', palabra: 'gato' },
+    { id: 2, emoji: '🐕', palabra: 'perro' },
+    { id: 3, emoji: '🐄', palabra: 'vaca' },
+    { id: 4, emoji: '🦋', palabra: 'mariposa' },
+    { id: 5, emoji: '🌻', palabra: 'flor' },
+    { id: 6, emoji: '🏠', palabra: 'casa' },
+    { id: 7, emoji: '☀️', palabra: 'sol' },
+    { id: 8, emoji: '🍎', palabra: 'manzana' },
 ]
 
 function cargarVoz() {
@@ -597,6 +612,119 @@ function resolverOperacion(num1, num2, tipo, resultado, indice) {
     setTimeout(() => {
         hablar(`¿Cuánto es ${num1} ${tipo === 'suma' ? 'más' : 'menos'} ${num2}?`)
     }, 300)
+}
+
+function iniciarMemoria() {
+    reiniciarJuego('memoria')
+
+    try {
+        recognition.stop()
+        escuchando = false
+    } catch (e) {}
+
+    document.getElementById('respuesta').style.display = 'none'
+    document.getElementById('puntaje').style.display = 'block'
+
+    cartasVolteadas = []
+    cartasPareadas = []
+    puntaje = 0
+
+    const pregunta = document.getElementById('pregunta')
+    pregunta.innerHTML = `🧠 Encuentra las parejas<br><br>
+        👂 Haz clic en dos tarjetas para encontrar la pareja`
+
+    document.getElementById('puntaje').textContent = '⭐ Parejas encontradas: 0/' + paresMemoria.length
+
+    crearTableroMemoria()
+
+    hablar('Hola Ximena. Vamos a jugar memoria. Encuentra las parejas de emojis. Haz clic en dos tarjetas para ver si son iguales')
+}
+
+function crearTableroMemoria() {
+    const juegoOpciones = document.getElementById('juegoOpciones')
+
+    const pares = []
+    paresMemoria.forEach(par => {
+        pares.push({ ...par, tipo: 'emoji' })
+        pares.push({ ...par, tipo: 'palabra' })
+    })
+
+    // Barajar
+    for (let i = pares.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pares[i], pares[j]] = [pares[j], pares[i]]
+    }
+
+    tableroMemoria = pares
+
+    let html = '<div class="memoria-grid">'
+    pares.forEach((par, index) => {
+        html += `
+            <button class="memoria-carta" id="carta-${index}" onclick="voltearCarta(${index})" data-par="${par.id}">
+                <div class="memoria-cara-frontal">?</div>
+                <div class="memoria-cara-trasera">${par.tipo === 'emoji' ? par.emoji : par.palabra}</div>
+            </button>
+        `
+    })
+    html += '</div>'
+
+    juegoOpciones.innerHTML = html
+}
+
+function voltearCarta(index) {
+    if (bloquearTablero) return
+    if (cartasVolteadas.length >= 2) return
+    if (cartasVolteadas.includes(index)) return
+    if (cartasPareadas.includes(index)) return
+
+    const carta = document.getElementById(`carta-${index}`)
+    carta.classList.add('volteada')
+    cartasVolteadas.push(index)
+
+    if (cartasVolteadas.length === 2) {
+        bloquearTablero = true
+        verificarPareja()
+    }
+}
+
+function verificarPareja() {
+    const [index1, index2] = cartasVolteadas
+    const par1 = tableroMemoria[index1].id
+    const par2 = tableroMemoria[index2].id
+    const tipo1 = tableroMemoria[index1].tipo
+    const tipo2 = tableroMemoria[index2].tipo
+
+    if (par1 === par2 && tipo1 !== tipo2) {
+        // Pareja encontrada
+        puntaje++
+        document.getElementById('puntaje').textContent = '⭐ Parejas encontradas: ' + puntaje + '/' + paresMemoria.length
+
+        cartasPareadas.push(index1, index2)
+        cartasVolteadas = []
+        bloquearTablero = false
+
+        hablar('¡Muy bien! Encontraste una pareja')
+
+        if (cartasPareadas.length === tableroMemoria.length) {
+            setTimeout(() => {
+                hablar('¡Excelente! ¡Encontraste todas las parejas! 🎉', () => {
+                    setTimeout(() => {
+                        iniciarMemoria()
+                    }, 2000)
+                })
+            }, 1000)
+        }
+    } else {
+        // No es pareja
+        setTimeout(() => {
+            const carta1 = document.getElementById(`carta-${index1}`)
+            const carta2 = document.getElementById(`carta-${index2}`)
+            carta1.classList.remove('volteada')
+            carta2.classList.remove('volteada')
+            cartasVolteadas = []
+            bloquearTablero = false
+        }, 1500)
+    }
 }
 
 function iniciarJuego() {
