@@ -955,16 +955,34 @@ body {
 
 /* ESTILOS ESPECÍFICOS POR TIPO DE JUEGO */
 
+.activity-screen.tipo-juego {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.activity-screen.tipo-juego .back {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+}
+
+.activity-screen.tipo-juego .puntaje {
+    position: absolute;
+    bottom: 30px;
+    width: auto;
+    max-width: 600px;
+}
+
 .activity-screen.tipo-juego .contenedor-juego {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex: 1;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    margin-bottom: 60px;
 }
 
 .activity-screen.tipo-juego .lado-izquierdo {
