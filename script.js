@@ -692,6 +692,39 @@ function voltearCarta(index) {
     }
 }
 
+function reproducirSonidoExito() {
+    try {
+        const contexto = new (window.AudioContext || window.webkitAudioContext)()
+        const ahora = contexto.currentTime
+
+        // Crear tres notas para un sonido alegre
+        const notas = [
+            { freq: 523.25, duracion: 0.15 }, // DO
+            { freq: 659.25, duracion: 0.15 }, // MI
+            { freq: 783.99, duracion: 0.3 }   // SOL
+        ]
+
+        notas.forEach((nota, i) => {
+            const osc = contexto.createOscillator()
+            const gain = contexto.createGain()
+
+            osc.connect(gain)
+            gain.connect(contexto.destination)
+
+            osc.frequency.value = nota.freq
+            osc.type = 'sine'
+
+            gain.gain.setValueAtTime(0.3, ahora + (i * 0.15))
+            gain.gain.exponentialRampToValueAtTime(0.01, ahora + (i * 0.15) + nota.duracion)
+
+            osc.start(ahora + (i * 0.15))
+            osc.stop(ahora + (i * 0.15) + nota.duracion)
+        })
+    } catch (e) {
+        console.log('Sonido no disponible')
+    }
+}
+
 function verificarPareja() {
     const [index1, index2] = cartasVolteadas
     const par1 = tableroMemoria[index1].id
@@ -701,6 +734,8 @@ function verificarPareja() {
 
     if (par1 === par2 && tipo1 !== tipo2) {
         // Pareja encontrada
+        reproducirSonidoExito()
+
         puntaje++
         document.getElementById('puntaje').textContent = '⭐ Parejas encontradas: ' + puntaje + '/' + paresMemoria.length
 

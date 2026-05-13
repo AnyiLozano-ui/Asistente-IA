@@ -830,6 +830,7 @@ body {
     color: white;
     z-index: 2;
     transition: opacity 0.3s ease;
+    font-size: 48px;
 }
 
 .memoria-cara-trasera {
@@ -837,6 +838,9 @@ body {
     color: #333;
     opacity: 0;
     z-index: 1;
+    font-size: 32px;
+    padding: 10px;
+    word-wrap: break-word;
 }
 
 .memoria-carta.volteada .memoria-cara-frontal {
