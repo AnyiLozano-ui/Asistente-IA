@@ -54,6 +54,103 @@ const juegoPalabras = [
     { correcta: 'tren', emoji: '🚂', opciones: ['tren', 'tres', 'trapo'] },
     { correcta: 'brazo', emoji: '💪', opciones: ['brazo', 'braso', 'vaso'] },
     { correcta: 'tomate', emoji: '🍅', opciones: ['tomate', 'camote', 'tomete'] },
+    { correcta: 'gato', emoji: '🐱', opciones: ['gato', 'pato', 'rato'] },
+    { correcta: 'perro', emoji: '🐕', opciones: ['perro', 'barro', 'carro'] },
+    { correcta: 'casa', emoji: '🏠', opciones: ['casa', 'tasa', 'masa'] },
+    { correcta: 'mesa', emoji: '🪑', opciones: ['mesa', 'vesa', 'tesa'] },
+    { correcta: 'puerta', emoji: '🚪', opciones: ['puerta', 'vuerta', 'tuerta'] },
+    { correcta: 'ventana', emoji: '🪟', opciones: ['ventana', 'rentana', 'sentana'] },
+    { correcta: 'libro', emoji: '📚', opciones: ['libro', 'libra', 'liblo'] },
+    { correcta: 'lápiz', emoji: '✏️', opciones: ['lápiz', 'lápez', 'lápes'] },
+    { correcta: 'cama', emoji: '🛏️', opciones: ['cama', 'rama', 'tama'] },
+    { correcta: 'pan', emoji: '🍞', opciones: ['pan', 'van', 'tan'] },
+    { correcta: 'agua', emoji: '💧', opciones: ['agua', 'agra', 'asua'] },
+    { correcta: 'fuego', emoji: '🔥', opciones: ['fuego', 'ruego', 'juego'] },
+    { correcta: 'árbol', emoji: '🌳', opciones: ['árbol', 'arbol', 'árbil'] },
+    { correcta: 'flor', emoji: '🌻', opciones: ['flor', 'fler', 'flur'] },
+    { correcta: 'sol', emoji: '☀️', opciones: ['sol', 'sal', 'sul'] },
+    { correcta: 'luna', emoji: '🌙', opciones: ['luna', 'lana', 'loona'] },
+    { correcta: 'estrella', emoji: '⭐', opciones: ['estrella', 'estrlla', 'estella'] },
+    { correcta: 'nube', emoji: '☁️', opciones: ['nube', 'nupe', 'nibe'] },
+    { correcta: 'lluvia', emoji: '🌧️', opciones: ['lluvia', 'luvia', 'llovia'] },
+    { correcta: 'nieve', emoji: '❄️', opciones: ['nieve', 'niebe', 'nueве'] },
+    { correcta: 'viento', emoji: '💨', opciones: ['viento', 'vinto', 'vanto'] },
+    { correcta: 'montaña', emoji: '⛰️', opciones: ['montaña', 'montaña', 'montana'] },
+    { correcta: 'río', emoji: '🏞️', opciones: ['río', 'reo', 'ríu'] },
+    { correcta: 'playa', emoji: '🏖️', opciones: ['playa', 'plaia', 'pláya'] },
+    { correcta: 'piedra', emoji: '🪨', opciones: ['piedra', 'pedra', 'piadra'] },
+    { correcta: 'arena', emoji: '🏜️', opciones: ['arena', 'arена', 'ajena'] },
+    { correcta: 'manzana', emoji: '🍎', opciones: ['manzana', 'manzona', 'manzina'] },
+    { correcta: 'naranja', emoji: '🍊', opciones: ['naranja', 'naranja', 'naranxa'] },
+    { correcta: 'plátano', emoji: '🍌', opciones: ['plátano', 'platano', 'plátan'] },
+    { correcta: 'fruta', emoji: '🍓', opciones: ['fruta', 'frita', 'frota'] },
+    { correcta: 'verdura', emoji: '🥬', opciones: ['verdura', 'verdora', 'verdira'] },
+    { correcta: 'chocolate', emoji: '🍫', opciones: ['chocolate', 'chocolte', 'choclate'] },
+    { correcta: 'helado', emoji: '🍦', opciones: ['helado', 'helido', 'halado'] },
+    { correcta: 'pastel', emoji: '🎂', opciones: ['pastel', 'pastal', 'postal'] },
+    { correcta: 'caramelo', emoji: '🍬', opciones: ['caramelo', 'caramilo', 'carímelo'] },
+    { correcta: 'dulce', emoji: '🍭', opciones: ['dulce', 'dulse', 'delce'] },
+    { correcta: 'juego', emoji: '🎮', opciones: ['juego', 'juego', 'juago'] },
+    { correcta: 'pelota', emoji: '⚽', opciones: ['pelota', 'pelota', 'palota'] },
+    { correcta: 'muñeca', emoji: '🪆', opciones: ['muñeca', 'muñeca', 'moñeca'] },
+    { correcta: 'carro', emoji: '🚗', opciones: ['carro', 'caro', 'carro'] },
+    { correcta: 'bicicleta', emoji: '🚲', opciones: ['bicicleta', 'bisicleta', 'biciclata'] },
+    { correcta: 'avión', emoji: '✈️', opciones: ['avión', 'avion', 'avián'] },
+    { correcta: 'barco', emoji: '⛵', opciones: ['barco', 'barco', 'barqu'] },
+    { correcta: 'mano', emoji: '✋', opciones: ['mano', 'mano', 'mono'] },
+    { correcta: 'pie', emoji: '🦶', opciones: ['pie', 'pio', 'pía'] },
+    { correcta: 'cabeza', emoji: '👤', opciones: ['cabeza', 'cabeza', 'cabesa'] },
+    { correcta: 'corazón', emoji: '❤️', opciones: ['corazón', 'corazon', 'corason'] },
+    { correcta: 'ojo', emoji: '👁️', opciones: ['ojo', 'ajo', 'oyo'] },
+    { correcta: 'boca', emoji: '👄', opciones: ['boca', 'boca', 'boque'] },
+    { correcta: 'nariz', emoji: '👃', opciones: ['nariz', 'naríz', 'naras'] },
+    { correcta: 'oído', emoji: '👂', opciones: ['oído', 'oido', 'oydo'] },
+    { correcta: 'diente', emoji: '🦷', opciones: ['diente', 'dinte', 'diante'] },
+    { correcta: 'pelo', emoji: '💇', opciones: ['pelo', 'palo', 'pilo'] },
+    { correcta: 'ropa', emoji: '👕', opciones: ['ropa', 'ropa', 'rupe'] },
+    { correcta: 'zapato', emoji: '👞', opciones: ['zapato', 'zapato', 'sapato'] },
+    { correcta: 'sombrero', emoji: '🎩', opciones: ['sombrero', 'sombrero', 'sombrero'] },
+    { correcta: 'reloj', emoji: '⏰', opciones: ['reloj', 'relox', 'reloz'] },
+    { correcta: 'teléfono', emoji: '☎️', opciones: ['teléfono', 'telefono', 'teleféno'] },
+    { correcta: 'televisión', emoji: '📺', opciones: ['televisión', 'television', 'televisón'] },
+    { correcta: 'lámpara', emoji: '🔦', opciones: ['lámpara', 'lampara', 'lámpira'] },
+    { correcta: 'silla', emoji: '🪑', opciones: ['silla', 'silla', 'sília'] },
+    { correcta: 'espejo', emoji: '🪞', opciones: ['espejo', 'espexo', 'espejo'] },
+    { correcta: 'alfombra', emoji: '🧶', opciones: ['alfombra', 'alfombra', 'alfomba'] },
+    { correcta: 'cortina', emoji: '🪟', opciones: ['cortina', 'cortina', 'cortena'] },
+    { correcta: 'escuela', emoji: '🏫', opciones: ['escuela', 'escuela', 'escuelo'] },
+    { correcta: 'profesor', emoji: '👨‍🏫', opciones: ['profesor', 'profesor', 'proferor'] },
+    { correcta: 'estudiante', emoji: '👨‍🎓', opciones: ['estudiante', 'estudiante', 'estudante'] },
+    { correcta: 'amigo', emoji: '👫', opciones: ['amigo', 'amigo', 'amigo'] },
+    { correcta: 'hermano', emoji: '👨', opciones: ['hermano', 'hermano', 'hermino'] },
+    { correcta: 'hermana', emoji: '👩', opciones: ['hermana', 'hermana', 'hermona'] },
+    { correcta: 'mamá', emoji: '👩‍👧', opciones: ['mamá', 'mama', 'mami'] },
+    { correcta: 'papá', emoji: '👨‍👦', opciones: ['papá', 'papa', 'papi'] },
+    { correcta: 'abuela', emoji: '👵', opciones: ['abuela', 'abuela', 'abuelo'] },
+    { correcta: 'abuelo', emoji: '👴', opciones: ['abuelo', 'abuelo', 'abuela'] },
+    { correcta: 'bebé', emoji: '👶', opciones: ['bebé', 'bebe', 'bebi'] },
+    { correcta: 'niño', emoji: '🧒', opciones: ['niño', 'nino', 'niñu'] },
+    { correcta: 'doctor', emoji: '⚕️', opciones: ['doctor', 'doctor', 'dotor'] },
+    { correcta: 'enfermera', emoji: '👩‍⚕️', opciones: ['enfermera', 'enfermera', 'enfermira'] },
+    { correcta: 'policía', emoji: '👮', opciones: ['policía', 'policia', 'polisía'] },
+    { correcta: 'bombero', emoji: '👨‍🚒', opciones: ['bombero', 'bombero', 'bombero'] },
+    { correcta: 'granja', emoji: '🚜', opciones: ['granja', 'granja', 'granja'] },
+    { correcta: 'vaca', emoji: '🐄', opciones: ['vaca', 'vaca', 'voca'] },
+    { correcta: 'caballo', emoji: '🐴', opciones: ['caballo', 'caballo', 'caballo'] },
+    { correcta: 'gallina', emoji: '🐔', opciones: ['gallina', 'gallina', 'galina'] },
+    { correcta: 'oveja', emoji: '🐑', opciones: ['oveja', 'oveja', 'ovaja'] },
+    { correcta: 'cerdo', emoji: '🐷', opciones: ['cerdo', 'cerdo', 'cirdo'] },
+    { correcta: 'pez', emoji: '🐠', opciones: ['pez', 'pes', 'peez'] },
+    { correcta: 'tortuga', emoji: '🐢', opciones: ['tortuga', 'tortuga', 'tortiga'] },
+    { correcta: 'mariposa', emoji: '🦋', opciones: ['mariposa', 'mariposa', 'maríposa'] },
+    { correcta: 'abeja', emoji: '🐝', opciones: ['abeja', 'abeja', 'abeja'] },
+    { correcta: 'araña', emoji: '🕷️', opciones: ['araña', 'arana', 'araña'] },
+    { correcta: 'serpiente', emoji: '🐍', opciones: ['serpiente', 'serpiente', 'serpinta'] },
+    { correcta: 'colores', emoji: '🎨', opciones: ['colores', 'colores', 'colores'] },
+    { correcta: 'rojo', emoji: '🔴', opciones: ['rojo', 'rojo', 'raho'] },
+    { correcta: 'azul', emoji: '🔵', opciones: ['azul', 'azur', 'azul'] },
+    { correcta: 'amarillo', emoji: '🟡', opciones: ['amarillo', 'amaríllo', 'amarillo'] },
+    { correcta: 'verde', emoji: '🟢', opciones: ['verde', 'vende', 'verdi'] },
 ]
 
 function cargarVoz() {
@@ -686,19 +783,34 @@ function validarJuego(opcion, elemento) {
     speechSynthesis.cancel()
 
     if (elemento) {
-        elemento.style.background = 'linear-gradient(135deg, #0ec2a5, #0aa994)'
-        elemento.style.color = 'white'
-        elemento.style.transform = 'scale(1.1)'
-        elemento.style.boxShadow = '0 12px 30px rgba(14, 194, 165, 0.4)'
-
         const botones = document.querySelectorAll('.option')
         botones.forEach(btn => {
-            if (btn !== elemento) {
-                btn.disabled = true
-                btn.style.opacity = '0.5'
-                btn.style.pointerEvents = 'none'
-            }
+            btn.disabled = true
+            btn.style.pointerEvents = 'none'
         })
+
+        if (opcion === juegoActual.correcta) {
+            elemento.style.background = 'linear-gradient(135deg, #0ec2a5, #0aa994)'
+            elemento.style.color = 'white'
+            elemento.style.transform = 'scale(1.1)'
+            elemento.style.boxShadow = '0 12px 30px rgba(14, 194, 165, 0.4)'
+        } else {
+            elemento.style.background = 'linear-gradient(135deg, #ff4fa3, #e63a90)'
+            elemento.style.color = 'white'
+            elemento.style.transform = 'scale(1.1)'
+            elemento.style.boxShadow = '0 12px 30px rgba(255, 79, 163, 0.4)'
+
+            botones.forEach(btn => {
+                if (btn.textContent.includes(juegoActual.correcta)) {
+                    btn.style.background = 'linear-gradient(135deg, #0ec2a5, #0aa994)'
+                    btn.style.color = 'white'
+                    btn.style.transform = 'scale(1.05)'
+                    btn.style.boxShadow = '0 12px 30px rgba(14, 194, 165, 0.4)'
+                } else if (btn !== elemento) {
+                    btn.style.opacity = '0.4'
+                }
+            })
+        }
     }
 
     if (opcion === juegoActual.correcta) {
@@ -713,7 +825,11 @@ function validarJuego(opcion, elemento) {
             }, 2000)
         })
     } else {
-        hablar('Casi Ximena. Intenta otra vez')
+        hablar('No es correcto. La respuesta es ' + juegoActual.correcta + '. Vamos con otra', () => {
+            setTimeout(() => {
+                nuevoJuego()
+            }, 2000)
+        })
     }
 }
 
