@@ -604,6 +604,13 @@ function resolverOperacion(num1, num2, tipo, resultado, indice) {
 function iniciarJuego() {
     reiniciarJuego('juego')
 
+    try {
+        recognition.stop()
+        escuchando = false
+    } catch (e) {}
+
+    document.getElementById('respuesta').style.display = 'none'
+
     hablar('Hola Ximena. Vamos a jugar atrapa la palabra', () => {
         nuevoJuego()
     })
@@ -753,6 +760,11 @@ function nuevaOperacion() {
 
 function nuevoJuego() {
     intentos = 0
+
+    try {
+        recognition.stop()
+        escuchando = false
+    } catch (e) {}
 
     juegoActual =
         juegoPalabras[Math.floor(Math.random() * juegoPalabras.length)]
