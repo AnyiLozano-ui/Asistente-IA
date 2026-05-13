@@ -1008,7 +1008,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-bottom: 100px;
+    padding-bottom: 80px;
 }
 
 .activity-screen.tipo-memoria .back {
@@ -1023,7 +1023,8 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-bottom: 40px;
+    max-width: 600px;
+    margin-bottom: 50px;
 }
 
 
