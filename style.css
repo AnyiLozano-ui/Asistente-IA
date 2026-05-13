@@ -412,7 +412,6 @@ body {
     font-size: 55px;
 }
 
-
 /* SELECTOR DE TABLAS */
 
 .table-selector {
@@ -476,46 +475,16 @@ body {
     filter: brightness(1.12);
 }
 
-.tabla-card.tabla-1 {
-    background: linear-gradient(145deg, #ff68b4, #f64ea2);
-}
-
-.tabla-card.tabla-2 {
-    background: linear-gradient(145deg, #67c5ff, #3da9f5);
-}
-
-.tabla-card.tabla-3 {
-    background: linear-gradient(145deg, #b57cff, #835de7);
-}
-
-.tabla-card.tabla-4 {
-    background: linear-gradient(145deg, #33dbc0, #0ec2a5);
-}
-
-.tabla-card.tabla-5 {
-    background: linear-gradient(145deg, #ffd968, #e6bd45);
-}
-
-.tabla-card.tabla-6 {
-    background: linear-gradient(145deg, #ff9b5a, #e97b3e);
-}
-
-.tabla-card.tabla-7 {
-    background: linear-gradient(145deg, #ff68b4, #f64ea2);
-}
-
-.tabla-card.tabla-8 {
-    background: linear-gradient(145deg, #67c5ff, #3da9f5);
-}
-
-.tabla-card.tabla-9 {
-    background: linear-gradient(145deg, #b57cff, #835de7);
-}
-
-.tabla-card.tabla-10 {
-    background: linear-gradient(145deg, #33dbc0, #0ec2a5);
-}
-
+.tabla-card.tabla-1 { background: linear-gradient(145deg, #ff68b4, #f64ea2); }
+.tabla-card.tabla-2 { background: linear-gradient(145deg, #67c5ff, #3da9f5); }
+.tabla-card.tabla-3 { background: linear-gradient(145deg, #b57cff, #835de7); }
+.tabla-card.tabla-4 { background: linear-gradient(145deg, #33dbc0, #0ec2a5); }
+.tabla-card.tabla-5 { background: linear-gradient(145deg, #ffd968, #e6bd45); }
+.tabla-card.tabla-6 { background: linear-gradient(145deg, #ff9b5a, #e97b3e); }
+.tabla-card.tabla-7 { background: linear-gradient(145deg, #ff68b4, #f64ea2); }
+.tabla-card.tabla-8 { background: linear-gradient(145deg, #67c5ff, #3da9f5); }
+.tabla-card.tabla-9 { background: linear-gradient(145deg, #b57cff, #835de7); }
+.tabla-card.tabla-10 { background: linear-gradient(145deg, #33dbc0, #0ec2a5); }
 
 /* BOTONES DE OPERACIÓN (SUMA/RESTA) */
 
@@ -670,7 +639,6 @@ body {
     opacity: 0.6;
 }
 
-
 /* GRID DE RESPUESTAS */
 
 .respuestas-grid {
@@ -712,7 +680,6 @@ body {
     font-size: 36px;
     font-weight: bold;
 }
-
 
 /* MENÚ DE JUEGOS */
 
@@ -767,7 +734,7 @@ body {
 }
 
 .juego-icono {
-    font-size: 90px;
+    font-size: 64px;
     margin-bottom: 15px;
     display: block;
 }
@@ -809,7 +776,6 @@ body {
 .juego-sonidos {
     background: linear-gradient(145deg, #ff9b5a, #e97b3e);
 }
-
 
 /* JUEGO DE MEMORIA */
 
@@ -888,10 +854,104 @@ body {
     opacity: 1;
 }
 
-.memoria-emoji {
-    font-size: 50px;
-}
+/* MÓVIL */
 
+@media (max-width: 900px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        background-size: cover;
+    }
+    .app {
+        width: 96vw;
+        height: auto;
+        padding: 10px 0;
+    }
+    .home-screen {
+        height: auto;
+        min-height: 95vh;
+        padding: 28px 18px;
+        border-radius: 28px;
+    }
+    .top-decoration {
+        display: none;
+    }
+    .titulo-magico {
+        font-size: 64px;
+        letter-spacing: 6px;
+    }
+    .main-header p {
+        font-size: 22px;
+        margin: 25px auto 30px;
+    }
+    .cards {
+        width: 100%;
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    .card {
+        min-height: 150px;
+    }
+    .card-image {
+        width: 80px;
+        height: 80px;
+    }
+    .game-options {
+        grid-template-columns: 1fr;
+    }
+    .tablas-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+    .tabla-card {
+        min-height: 120px;
+        padding: 18px;
+    }
+    .tabla-numero {
+        font-size: 36px;
+    }
+    .tabla-label {
+        font-size: 12px;
+    }
+    .operacion-btn {
+        min-height: 140px;
+        padding: 18px;
+    }
+    .operacion-icon {
+        font-size: 42px;
+        margin-bottom: 8px;
+    }
+    .operacion-texto {
+        font-size: 16px;
+    }
+    .operaciones-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .operacion-card {
+        min-height: 120px;
+        padding: 18px;
+    }
+    .operacion-display {
+        font-size: 28px;
+    }
+    .operacion-icon-card {
+        font-size: 36px;
+    }
+    .respuestas-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .respuesta-btn {
+        min-height: 90px;
+        padding: 15px;
+        font-size: 24px;
+    }
+    .numero-respuesta {
+        font-size: 28px;
+    }
+}
 
 /* PANTALLA GANASTE */
 
@@ -1006,105 +1066,5 @@ body {
     100% {
         transform: translateY(110vh) rotate(720deg);
         opacity: 0;
-    }
-}
-
-
-/* MÓVIL */
-
-@media (max-width: 900px) {
-    body {
-        height: auto;
-        min-height: 100vh;
-        overflow-y: auto;
-        background-size: cover;
-    }
-    .app {
-        width: 96vw;
-        height: auto;
-        padding: 10px 0;
-    }
-    .home-screen {
-        height: auto;
-        min-height: 95vh;
-        padding: 28px 18px;
-        border-radius: 28px;
-    }
-    .top-decoration {
-        display: none;
-    }
-    .titulo-magico {
-        font-size: 64px;
-        letter-spacing: 6px;
-    }
-    .main-header p {
-        font-size: 22px;
-        margin: 25px auto 30px;
-    }
-    .cards {
-        width: 100%;
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-    .card {
-        min-height: 150px;
-    }
-    .card-image {
-        width: 80px;
-        height: 80px;
-    }
-    .game-options {
-        grid-template-columns: 1fr;
-    }
-    .tablas-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-    }
-    .tabla-card {
-        min-height: 120px;
-        padding: 18px;
-    }
-    .tabla-numero {
-        font-size: 36px;
-    }
-    .tabla-label {
-        font-size: 12px;
-    }
-    .operacion-btn {
-        min-height: 140px;
-        padding: 18px;
-    }
-    .operacion-icon {
-        font-size: 42px;
-        margin-bottom: 8px;
-    }
-    .operacion-texto {
-        font-size: 16px;
-    }
-    .operaciones-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .operacion-card {
-        min-height: 120px;
-        padding: 18px;
-    }
-    .operacion-display {
-        font-size: 28px;
-    }
-    .operacion-icon-card {
-        font-size: 36px;
-    }
-    .respuestas-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-    .respuesta-btn {
-        min-height: 90px;
-        padding: 15px;
-        font-size: 24px;
-    }
-    .numero-respuesta {
-        font-size: 28px;
     }
 }
