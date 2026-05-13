@@ -832,7 +832,7 @@ body {
     color: white;
     z-index: 2;
     transition: opacity 0.3s ease;
-    font-size: 48px;
+    font-size: 54px;
 }
 
 .memoria-cara-trasera {
@@ -840,7 +840,7 @@ body {
     color: #333;
     opacity: 0;
     z-index: 1;
-    font-size: 20px;
+    font-size: 24px;
     text-align: center;
     line-height: 1.2;
     word-break: break-word;
