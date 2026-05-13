@@ -955,17 +955,26 @@ body {
 
 /* ESTILOS ESPECÍFICOS POR TIPO DE JUEGO */
 
+.activity-screen.tipo-juego {
+    justify-content: center;
+    align-items: center;
+}
+
 .activity-screen.tipo-juego .contenedor-juego {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
 }
 
 .activity-screen.tipo-juego .lado-izquierdo {
     width: 100%;
     text-align: center;
     align-items: center;
+    justify-content: center;
 }
 
 .activity-screen.tipo-juego .lado-derecho {
