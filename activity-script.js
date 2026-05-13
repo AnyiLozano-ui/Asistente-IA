@@ -46,23 +46,31 @@ window.addEventListener('DOMContentLoaded', () => {
             selectorTablas.style.display = 'none'
         }
 
+        const actividad = document.getElementById('actividad')
+
         if (tipo === 'pronunciacion') {
             document.getElementById('tituloActividad').textContent = '🗣️ Pronunciación'
+            actividad.classList.add('tipo-pronunciacion')
             iniciarPronunciacion()
         } else if (tipo === 'silabas') {
             document.getElementById('tituloActividad').textContent = '🔤 Sílabas'
+            actividad.classList.add('tipo-silabas')
             iniciarSilabas()
         } else if (tipo === 'tablas') {
             document.getElementById('tituloActividad').textContent = '✖️ Tablas de multiplicar'
+            actividad.classList.add('tipo-tablas')
             iniciarTablas()
         } else if (tipo === 'matematicas') {
             document.getElementById('tituloActividad').textContent = '➕➖ Sumas y restas'
+            actividad.classList.add('tipo-matematicas')
             iniciarSumasRestas()
         } else if (tipo === 'juego') {
             document.getElementById('tituloActividad').textContent = '🎮 Atrapa la palabra'
+            actividad.classList.add('tipo-juego')
             iniciarJuego()
         } else if (tipo === 'memoria') {
             document.getElementById('tituloActividad').textContent = '🧠 Memoria'
+            actividad.classList.add('tipo-memoria')
             iniciarMemoria()
         }
     }, 500)

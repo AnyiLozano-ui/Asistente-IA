@@ -953,6 +953,27 @@ body {
     }
 }
 
+/* ESTILOS ESPECÍFICOS POR TIPO DE JUEGO */
+
+.activity-screen.tipo-juego .contenedor-juego {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.activity-screen.tipo-juego .lado-izquierdo {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+}
+
+.activity-screen.tipo-juego .lado-derecho {
+    width: 100%;
+    margin-top: 30px;
+}
+
+
 /* PANTALLA GANASTE */
 
 .pantalla-ganaste {
