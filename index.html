@@ -3,23 +3,47 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Asistente Educativo con Voz</title>
+    <title>Aprendiendo con Ximena</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <div class="container">
-        <h1>🎤 Ayudante de Lectura de Angie</h1>
+    <main class="app">
+        <section id="menu" class="screen active">
+            <h1>🌈 Aprendiendo con Ximena</h1>
+            <p class="subtitle">Elige una actividad para comenzar</p>
 
-        <p id="pregunta">Elige un modo para comenzar</p>
+            <div class="cards">
+                <button class="card pink" onclick="abrirActividad('pronunciacion')">
+          🗣️
+          <span>Pronunciación</span>
+        </button>
 
-        <button onclick="iniciarTablas()">Practicar tablas</button>
-        <button onclick="iniciarSumasRestas()">Sumas y restas</button>
-        <button onclick="iniciarPronunciacion()">Practicar lectura con Ximena</button>
+                <button class="card purple" onclick="abrirActividad('tablas')">
+          ✖️
+          <span>Tablas</span>
+        </button>
 
-        <h2 id="respuesta"></h2>
-        <h3 id="puntaje">Puntaje: 0</h3>
-    </div>
+                <button class="card green" onclick="abrirActividad('matematicas')">
+          ➕➖
+          <span>Sumas y restas</span>
+        </button>
+            </div>
+        </section>
+
+        <section id="actividad" class="screen">
+            <button class="back" onclick="volverMenu()">⬅ Volver</button>
+
+            <h2 id="tituloActividad">Actividad</h2>
+
+            <div id="pregunta" class="question">
+                Presiona una opción para comenzar
+            </div>
+
+            <h3 id="respuesta" class="answer"></h3>
+            <h3 id="puntaje" class="score">⭐ Puntaje: 0</h3>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>

@@ -342,3 +342,46 @@ recognition.onend = function() {
         } catch (e) {}
     }
 }
+
+function abrirActividad(tipo) {
+    document.getElementById('menu').classList.remove('active')
+    document.getElementById('actividad').classList.add('active')
+
+    document.getElementById('respuesta').textContent = ''
+    document.getElementById('puntaje').textContent = '⭐ Puntaje: 0'
+
+    if (tipo === 'pronunciacion') {
+        document.getElementById('tituloActividad').textContent =
+            '🗣️ Pronunciación'
+        iniciarPronunciacion()
+    }
+
+    if (tipo === 'tablas') {
+        document.getElementById('tituloActividad').textContent =
+            '✖️ Tablas de multiplicar'
+        iniciarTablas()
+    }
+
+    if (tipo === 'matematicas') {
+        document.getElementById('tituloActividad').textContent =
+            '➕➖ Sumas y restas'
+        iniciarSumasRestas()
+    }
+}
+
+function volverMenu() {
+    modo = ''
+    escuchando = false
+
+    try {
+        recognition.stop()
+    } catch (e) {}
+
+    speechSynthesis.cancel()
+
+    document.getElementById('actividad').classList.remove('active')
+    document.getElementById('menu').classList.add('active')
+
+    document.getElementById('pregunta').textContent =
+        'Presiona una opción para comenzar'
+}
