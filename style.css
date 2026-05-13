@@ -253,9 +253,30 @@ body {
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     overflow-y: auto;
+    position: relative;
+}
+
+.contenedor-juego {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 30px;
+    flex: 1;
+    align-items: center;
+}
+
+.lado-izquierdo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.lado-derecho {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .activity-screen.pink {
@@ -295,29 +316,35 @@ body {
     left: 40px;
 }
 
-#tituloActividad,
+#tituloActividad {
+    font-size: 38px;
+    color: #7c4dff;
+    margin: 0;
+    text-align: left;
+}
+
 #logros h2 {
     text-align: center;
     font-size: 38px;
     color: #7c4dff;
-    margin: 0 0 15px 0;
+    margin: 0;
 }
 
 .question {
     background: #fff4fb;
     border: 5px dashed #ff9bd2;
     border-radius: 30px;
-    padding: 18px 25px;
-    font-size: 24px;
+    padding: 20px;
+    font-size: 20px;
     font-weight: 900;
-    min-height: 110px;
-    text-align: center;
-    margin: 0 0 8px 0;
+    min-height: 150px;
+    text-align: left;
+    margin: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
-    max-width: 520px;
-    width: 90%;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 100%;
 }
 
 .answer,
@@ -326,20 +353,21 @@ body {
     padding: 16px;
     text-align: center;
     font-size: 22px;
-    max-width: 550px;
-    width: 90%;
 }
 
 .answer {
     background: #e9f7ff;
     color: #2364aa;
-    margin: 10px 0 0 0;
+    margin: 0;
+    display: none;
 }
 
 .score {
     background: #fff0a8;
     color: #8a5a00;
-    margin: 10px 0 0 0;
+    margin: 20px auto 0 auto;
+    width: 100%;
+    max-width: 600px;
 }
 
 .game-options {
@@ -349,7 +377,7 @@ body {
     width: 100%;
     gap: 15px;
     flex-wrap: wrap;
-    margin: 5px 0;
+    margin: 0;
 }
 
 .option {
@@ -754,11 +782,11 @@ body {
 .memoria-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    max-width: 520px;
-    width: 90%;
+    gap: 16px;
+    max-width: 550px;
+    width: 100%;
     padding: 0;
-    margin: 5px 0 8px 0;
+    margin: 0;
     place-items: center;
 }
 
