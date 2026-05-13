@@ -1001,6 +1001,36 @@ body {
     justify-content: center;
 }
 
+/* ESTILOS PARA MEMORIA */
+
+.activity-screen.tipo-memoria {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.activity-screen.tipo-memoria .back {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+}
+
+.activity-screen.tipo-memoria .puntaje {
+    position: absolute;
+    bottom: 30px;
+    width: auto;
+    max-width: 600px;
+}
+
+.activity-screen.tipo-memoria .contenedor-juego {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 
 /* PANTALLA GANASTE */
 
