@@ -247,12 +247,14 @@ body {
 .activity-screen {
     width: 100%;
     min-height: 90vh;
-    padding: 20px 32px 32px;
+    padding: 15px 32px 20px;
     border-radius: 34px;
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     overflow-y: auto;
 }
 
@@ -288,6 +290,9 @@ body {
     font-size: 18px;
     font-weight: 900;
     cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 40px;
 }
 
 #tituloActividad,
@@ -295,41 +300,46 @@ body {
     text-align: center;
     font-size: 38px;
     color: #7c4dff;
-    margin: 15px 0 10px 0;
+    margin: 0 0 15px 0;
 }
 
 .question {
     background: #fff4fb;
     border: 5px dashed #ff9bd2;
     border-radius: 30px;
-    padding: 25px;
-    font-size: 28px;
+    padding: 20px;
+    font-size: 26px;
     font-weight: 900;
-    min-height: 140px;
+    min-height: 120px;
     text-align: center;
-    margin: 10px 0 15px 0;
+    margin: 0 0 10px 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    max-width: 550px;
+    width: 90%;
 }
 
 .answer,
 .score {
     border-radius: 24px;
-    padding: 18px;
+    padding: 16px;
     text-align: center;
-    font-size: 24px;
+    font-size: 22px;
+    max-width: 550px;
+    width: 90%;
 }
 
 .answer {
     background: #e9f7ff;
     color: #2364aa;
+    margin: 10px 0 0 0;
 }
 
 .score {
     background: #fff0a8;
     color: #8a5a00;
-    margin-top: 15px;
+    margin: 10px 0 0 0;
 }
 
 .game-options {
@@ -744,12 +754,11 @@ body {
 .memoria-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    max-width: 600px;
-    margin: 15px auto;
-    width: 100%;
+    gap: 16px;
+    max-width: 550px;
+    width: 90%;
     padding: 0;
-    flex: 1;
+    margin: 10px 0;
     place-items: center;
 }
 
