@@ -734,32 +734,35 @@ body {
 .memoria-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    max-width: 600px;
-    margin: 20px auto;
+    gap: 20px;
+    max-width: 700px;
+    margin: 30px auto;
     width: 100%;
+    padding: 20px;
 }
 
 .memoria-carta {
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     position: relative;
-    background: linear-gradient(145deg, #67c5ff, #3da9f5);
     border: none;
-    border-radius: 16px;
+    border-radius: 20px;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 48px;
+    font-family: 'Comic Sans MS', Arial, sans-serif;
     font-weight: 900;
-    min-height: 120px;
-    perspective: 1000px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease;
+    min-height: 140px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
 }
 
 .memoria-carta:hover:not(.volteada) {
-    transform: scale(1.08);
+    transform: scale(1.08) rotateY(0deg);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+.memoria-carta.volteada {
+    transform: rotateY(180deg);
 }
 
 .memoria-cara-frontal,
@@ -770,31 +773,34 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 16px;
-    font-size: 48px;
+    border-radius: 20px;
+    font-size: 52px;
     font-weight: 900;
+    backface-visibility: hidden;
 }
 
 .memoria-cara-frontal {
     background: linear-gradient(145deg, #67c5ff, #3da9f5);
     color: white;
     z-index: 2;
-    transition: opacity 0.3s ease;
+    transform: rotateY(0deg);
 }
 
 .memoria-cara-trasera {
-    background: white;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
     color: #333;
-    opacity: 0;
+    border: 3px solid #3da9f5;
     z-index: 1;
+    transform: rotateY(180deg);
+    font-size: 48px;
 }
 
 .memoria-carta.volteada .memoria-cara-frontal {
-    opacity: 0;
+    z-index: 0;
 }
 
 .memoria-carta.volteada .memoria-cara-trasera {
-    opacity: 1;
+    z-index: 2;
 }
 
 /* MÓVIL */

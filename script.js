@@ -678,12 +678,17 @@ function voltearCarta(index) {
     if (cartasPareadas.includes(index)) return
 
     const carta = document.getElementById(`carta-${index}`)
-    carta.classList.add('volteada')
-    cartasVolteadas.push(index)
 
-    if (cartasVolteadas.length === 2) {
-        bloquearTablero = true
-        verificarPareja()
+    if (!carta.classList.contains('volteada')) {
+        carta.classList.add('volteada')
+        cartasVolteadas.push(index)
+
+        if (cartasVolteadas.length === 2) {
+            bloquearTablero = true
+            setTimeout(() => {
+                verificarPareja()
+            }, 600)
+        }
     }
 }
 
@@ -703,27 +708,31 @@ function verificarPareja() {
         cartasVolteadas = []
         bloquearTablero = false
 
-        hablar('¡Muy bien! Encontraste una pareja')
-
-        if (cartasPareadas.length === tableroMemoria.length) {
-            setTimeout(() => {
-                hablar('¡Excelente! ¡Encontraste todas las parejas! 🎉', () => {
-                    setTimeout(() => {
-                        iniciarMemoria()
-                    }, 2000)
-                })
-            }, 1000)
-        }
+        hablar('¡Muy bien! Encontraste una pareja', () => {
+            if (cartasPareadas.length === tableroMemoria.length) {
+                setTimeout(() => {
+                    hablar('¡Excelente! ¡Encontraste todas las parejas! 🎉', () => {
+                        setTimeout(() => {
+                            iniciarMemoria()
+                        }, 2000)
+                    })
+                }, 500)
+            }
+        })
     } else {
         // No es pareja
+        hablar('No coinciden. Vamos de nuevo')
+
         setTimeout(() => {
             const carta1 = document.getElementById(`carta-${index1}`)
             const carta2 = document.getElementById(`carta-${index2}`)
-            carta1.classList.remove('volteada')
-            carta2.classList.remove('volteada')
+
+            if (carta1) carta1.classList.remove('volteada')
+            if (carta2) carta2.classList.remove('volteada')
+
             cartasVolteadas = []
             bloquearTablero = false
-        }, 1500)
+        }, 1200)
     }
 }
 
