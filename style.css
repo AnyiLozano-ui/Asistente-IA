@@ -412,6 +412,7 @@ body {
     font-size: 55px;
 }
 
+
 /* SELECTOR DE TABLAS */
 
 .table-selector {
@@ -475,16 +476,46 @@ body {
     filter: brightness(1.12);
 }
 
-.tabla-card.tabla-1 { background: linear-gradient(145deg, #ff68b4, #f64ea2); }
-.tabla-card.tabla-2 { background: linear-gradient(145deg, #67c5ff, #3da9f5); }
-.tabla-card.tabla-3 { background: linear-gradient(145deg, #b57cff, #835de7); }
-.tabla-card.tabla-4 { background: linear-gradient(145deg, #33dbc0, #0ec2a5); }
-.tabla-card.tabla-5 { background: linear-gradient(145deg, #ffd968, #e6bd45); }
-.tabla-card.tabla-6 { background: linear-gradient(145deg, #ff9b5a, #e97b3e); }
-.tabla-card.tabla-7 { background: linear-gradient(145deg, #ff68b4, #f64ea2); }
-.tabla-card.tabla-8 { background: linear-gradient(145deg, #67c5ff, #3da9f5); }
-.tabla-card.tabla-9 { background: linear-gradient(145deg, #b57cff, #835de7); }
-.tabla-card.tabla-10 { background: linear-gradient(145deg, #33dbc0, #0ec2a5); }
+.tabla-card.tabla-1 {
+    background: linear-gradient(145deg, #ff68b4, #f64ea2);
+}
+
+.tabla-card.tabla-2 {
+    background: linear-gradient(145deg, #67c5ff, #3da9f5);
+}
+
+.tabla-card.tabla-3 {
+    background: linear-gradient(145deg, #b57cff, #835de7);
+}
+
+.tabla-card.tabla-4 {
+    background: linear-gradient(145deg, #33dbc0, #0ec2a5);
+}
+
+.tabla-card.tabla-5 {
+    background: linear-gradient(145deg, #ffd968, #e6bd45);
+}
+
+.tabla-card.tabla-6 {
+    background: linear-gradient(145deg, #ff9b5a, #e97b3e);
+}
+
+.tabla-card.tabla-7 {
+    background: linear-gradient(145deg, #ff68b4, #f64ea2);
+}
+
+.tabla-card.tabla-8 {
+    background: linear-gradient(145deg, #67c5ff, #3da9f5);
+}
+
+.tabla-card.tabla-9 {
+    background: linear-gradient(145deg, #b57cff, #835de7);
+}
+
+.tabla-card.tabla-10 {
+    background: linear-gradient(145deg, #33dbc0, #0ec2a5);
+}
+
 
 /* BOTONES DE OPERACIÓN (SUMA/RESTA) */
 
@@ -639,6 +670,7 @@ body {
     opacity: 0.6;
 }
 
+
 /* GRID DE RESPUESTAS */
 
 .respuestas-grid {
@@ -680,6 +712,7 @@ body {
     font-size: 36px;
     font-weight: bold;
 }
+
 
 /* MENÚ DE JUEGOS */
 
@@ -777,6 +810,7 @@ body {
     background: linear-gradient(145deg, #ff9b5a, #e97b3e);
 }
 
+
 /* JUEGO DE MEMORIA */
 
 .memoria-grid {
@@ -853,6 +887,7 @@ body {
 .memoria-carta.volteada .memoria-cara-trasera {
     opacity: 1;
 }
+
 
 /* MÓVIL */
 
@@ -953,6 +988,7 @@ body {
     }
 }
 
+
 /* ESTILOS ESPECÍFICOS POR TIPO DE JUEGO */
 
 .activity-screen.tipo-juego {
@@ -1001,6 +1037,7 @@ body {
     justify-content: center;
 }
 
+
 /* ESTILOS PARA MEMORIA */
 
 .activity-screen.tipo-memoria {
@@ -1023,7 +1060,13 @@ body {
     align-items: center;
     width: 100%;
     max-width: 600px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
+}
+
+.activity-screen.tipo-memoria .puntaje {
+    font-size: 16px;
+    margin: 10px auto 0 !important;
+    padding: 8px 16px !important;
 }
 
 
@@ -1119,6 +1162,7 @@ body {
 .ganaste-btn:active {
     transform: translateY(-2px) scale(1.02);
 }
+
 
 /* CONFETI */
 
