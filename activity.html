@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Actividad - MagiMente</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <main class="app">
+        <section id="actividad" class="screen activity-screen active">
+            <button class="back" onclick="volverMenu()">⬅ Volver</button>
+
+            <h2 id="tituloActividad">Actividad</h2>
+
+            <!-- Pantalla de selección de tablas -->
+            <div id="selectorTablas" class="table-selector" style="display: none;">
+                <p class="selector-titulo">Selecciona una tabla para aprender</p>
+                <div id="contenedorTablas" class="tablas-grid"></div>
+            </div>
+
+            <div id="pregunta" class="question">
+                Hola, soy tu amiga con IA. Vamos a aprender y jugar juntos.
+            </div>
+
+            <div id="juegoOpciones" class="game-options"></div>
+
+            <h3 id="respuesta" class="answer"></h3>
+            <h3 id="puntaje" class="score">⭐ Puntaje: 0</h3>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="activity-script.js"></script>
+</body>
+
+</html>

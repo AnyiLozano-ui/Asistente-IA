@@ -151,22 +151,7 @@ function abrirActividad(tipo, colorClass) {
 }
 
 function abrirMenuJuegos() {
-    document.getElementById('menu').classList.remove('active')
-    document.getElementById('logros').classList.remove('active')
-    document.getElementById('juegos-menu').classList.add('active')
-}
-
-function abrirJuegoEnVentana(tipo) {
-    const colorMap = {
-        'juego': 'yellow',
-        'memoria': 'blue',
-        'emojis': 'purple',
-        'colores': 'green',
-        'rompecabezas': 'orange',
-        'sonidos': 'pink'
-    }
-    const color = colorMap[tipo] || 'yellow'
-    window.open(`activity.html?tipo=${tipo}&color=${color}`, '_blank')
+    window.open(`games.html`, '_blank')
 }
 
 function abrirLogros() {
@@ -177,7 +162,6 @@ function abrirLogros() {
 
 function volverMenu() {
     document.getElementById('logros').classList.remove('active')
-    document.getElementById('juegos-menu').classList.remove('active')
     document.getElementById('menu').classList.add('active')
 }
 

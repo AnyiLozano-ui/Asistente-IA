@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juegos - MagiMente</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <main class="app">
+        <section id="juegos" class="screen activity-screen active">
+            <button class="back" onclick="window.close()">⬅ Volver</button>
+
+            <header class="menu-header">
+                <h1>🎮 Elige un Juego</h1>
+                <p>Diviértete aprendiendo con estos juegos educativos</p>
+            </header>
+
+            <div class="juegos-grid">
+                <button class="juego-card juego-atrapa" onclick="abrirJuego('juego', 'yellow')">
+                    <div class="juego-icono">🦋</div>
+                    <h3>Atrapa la Palabra</h3>
+                    <p>Encuentra la palabra correcta</p>
+                </button>
+
+                <button class="juego-card juego-memoria" onclick="abrirJuego('memoria', 'blue')">
+                    <div class="juego-icono">🧠</div>
+                    <h3>Memoria</h3>
+                    <p>Encuentra las parejas</p>
+                </button>
+
+                <button class="juego-card juego-emojis" onclick="abrirJuego('emojis', 'purple')">
+                    <div class="juego-icono">😊</div>
+                    <h3>Asocia Emojis</h3>
+                    <p>Une emojis con palabras</p>
+                </button>
+
+                <button class="juego-card juego-colores" onclick="abrirJuego('colores', 'green')">
+                    <div class="juego-icono">🎨</div>
+                    <h3>Secuencia de Colores</h3>
+                    <p>Completa el patrón</p>
+                </button>
+
+                <button class="juego-card juego-rompecabezas" onclick="abrirJuego('rompecabezas', 'orange')">
+                    <div class="juego-icono">🧩</div>
+                    <h3>Rompecabezas</h3>
+                    <p>Arma las palabras</p>
+                </button>
+
+                <button class="juego-card juego-sonidos" onclick="abrirJuego('sonidos', 'pink')">
+                    <div class="juego-icono">🔊</div>
+                    <h3>Asocia Sonidos</h3>
+                    <p>Empareja sonidos y objetos</p>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function abrirJuego(tipo, color) {
+            window.open(`activity.html?tipo=${tipo}&color=${color}`, '_blank')
+        }
+    </script>
+</body>
+
+</html>
