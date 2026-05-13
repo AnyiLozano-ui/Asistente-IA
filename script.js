@@ -7,6 +7,9 @@ recognition.lang = 'es-ES'
 recognition.continuous = false
 recognition.interimResults = false
 
+const PUNTOS_PARA_GANAR = 5
+const PUNTOS_TABLAS = 10
+
 let modo = ''
 let palabraActual = ''
 let silabasActuales = ''
@@ -659,10 +662,11 @@ function crearTableroMemoria() {
 
     let html = '<div class="memoria-grid">'
     pares.forEach((par, index) => {
+        const contenidoTrasera = par.tipo === 'emoji' ? `<span class="memoria-emoji">${par.emoji}</span>` : par.palabra
         html += `
             <button class="memoria-carta" id="carta-${index}" onclick="voltearCarta(${index})" data-par="${par.id}">
                 <div class="memoria-cara-frontal">?</div>
-                <div class="memoria-cara-trasera">${par.tipo === 'emoji' ? par.emoji : par.palabra}</div>
+                <div class="memoria-cara-trasera">${contenidoTrasera}</div>
             </button>
         `
     })
@@ -746,11 +750,7 @@ function verificarPareja() {
         hablar('¡Muy bien! Encontraste una pareja', () => {
             if (cartasPareadas.length === tableroMemoria.length) {
                 setTimeout(() => {
-                    hablar('¡Excelente! ¡Encontraste todas las parejas! 🎉', () => {
-                        setTimeout(() => {
-                            iniciarMemoria()
-                        }, 2000)
-                    })
+                    mostrarPantallaGanaste()
                 }, 500)
             }
         })
@@ -1001,11 +1001,15 @@ function validarJuego(opcion, elemento) {
         document.getElementById('puntaje').textContent =
             '⭐ Puntaje: ' + puntaje
 
-        hablar('Muy bien Ximena. Encontraste la palabra correcta', () => {
-            setTimeout(() => {
-                nuevoJuego()
-            }, 2000)
-        })
+        if (puntaje >= PUNTOS_PARA_GANAR) {
+            mostrarPantallaGanaste()
+        } else {
+            hablar('Muy bien Ximena. Encontraste la palabra correcta', () => {
+                setTimeout(() => {
+                    nuevoJuego()
+                }, 2000)
+            })
+        }
     } else {
         const palabraSeleccionada = opcion
         const palabraCorrecta = juegoActual.correcta
@@ -1064,9 +1068,13 @@ function validarPronunciacion(texto) {
         document.getElementById('puntaje').textContent =
             '⭐ Puntaje: ' + puntaje
 
-        hablar(`Muy bien Ximena. Dijiste correctamente ${palabraActual}`, () => {
-            setTimeout(nuevaPalabra, 2000)
-        })
+        if (puntaje >= PUNTOS_PARA_GANAR) {
+            mostrarPantallaGanaste()
+        } else {
+            hablar(`Muy bien Ximena. Dijiste correctamente ${palabraActual}`, () => {
+                setTimeout(nuevaPalabra, 2000)
+            })
+        }
     } else {
         intentos++
 
@@ -1096,9 +1104,13 @@ function validarSilabas(texto) {
         document.getElementById('puntaje').textContent =
             '⭐ Puntaje: ' + puntaje
 
-        hablar(`Muy bien Ximena. La palabra era ${correcta}`, () => {
-            setTimeout(nuevaSilaba, 2000)
-        })
+        if (puntaje >= PUNTOS_PARA_GANAR) {
+            mostrarPantallaGanaste()
+        } else {
+            hablar(`Muy bien Ximena. La palabra era ${correcta}`, () => {
+                setTimeout(nuevaSilaba, 2000)
+            })
+        }
     } else {
         intentos++
 
@@ -1136,19 +1148,23 @@ function verificarRespuesta(respuestaUsuario, respuestaCorrecta, tipo) {
         puntaje++
         document.getElementById('puntaje').textContent = '⭐ Puntaje: ' + puntaje
 
-        pregunta.innerHTML = `
-            <div style="font-size: 80px; margin-bottom: 20px;">✅</div>
-            <div style="font-size: 36px; font-weight: bold; color: #0ec2a5;">¡CORRECTO!</div>
-            <div style="font-size: 24px; color: #666; margin-top: 15px;">Excelente trabajo Ximena 🎉</div>
-        `
+        if (puntaje >= PUNTOS_TABLAS) {
+            mostrarPantallaGanaste()
+        } else {
+            pregunta.innerHTML = `
+                <div style="font-size: 80px; margin-bottom: 20px;">✅</div>
+                <div style="font-size: 36px; font-weight: bold; color: #0ec2a5;">¡CORRECTO!</div>
+                <div style="font-size: 24px; color: #666; margin-top: 15px;">Excelente trabajo Ximena 🎉</div>
+            `
 
-        juegoOpciones.innerHTML = ''
+            juegoOpciones.innerHTML = ''
 
-        hablar('Muy bien Ximena, ¡lo hiciste correctamente!', () => {
-            setTimeout(() => {
-                mostrarGridOperaciones(tipoOperacionActual)
-            }, 3000)
-        })
+            hablar('Muy bien Ximena, ¡lo hiciste correctamente!', () => {
+                setTimeout(() => {
+                    mostrarGridOperaciones(tipoOperacionActual)
+                }, 3000)
+            })
+        }
     } else {
         pregunta.innerHTML = `
             <div style="font-size: 80px; margin-bottom: 20px;">❌</div>
@@ -1176,13 +1192,17 @@ function validarMatematicas(texto) {
         document.getElementById('puntaje').textContent =
             '⭐ Puntaje: ' + puntaje
 
-        hablar('¡Excelente! ¡Muy bien Ximena! 🎉', () => {
-            setTimeout(() => {
-                if (modo === 'tablas') nuevaTabla()
-                else if (tipoOperacionActual) nuevaOperacionMejorada(tipoOperacionActual)
-                else nuevaOperacion()
-            }, 2000)
-        })
+        if (puntaje >= PUNTOS_TABLAS) {
+            mostrarPantallaGanaste()
+        } else {
+            hablar('¡Excelente! ¡Muy bien Ximena! 🎉', () => {
+                setTimeout(() => {
+                    if (modo === 'tablas') nuevaTabla()
+                    else if (tipoOperacionActual) nuevaOperacionMejorada(tipoOperacionActual)
+                    else nuevaOperacion()
+                }, 2000)
+            })
+        }
     } else {
         intentos++
 
@@ -1256,6 +1276,40 @@ function convertirTextoANumero(texto) {
     }
 
     return null
+}
+
+function mostrarPantallaGanaste() {
+    try { recognition.stop(); escuchando = false; } catch(e) {}
+    speechSynthesis.cancel();
+
+    const pantalla = document.getElementById('pantallaGanaste')
+    if (pantalla) pantalla.classList.remove('oculta')
+
+    const container = document.getElementById('confeti-container')
+    if (container) {
+        container.innerHTML = ''
+        const colores = ['#ff4fa3','#8057ff','#26bfff','#ffb300','#0ec2a5','#ff765c','#ffd968']
+        for (let i = 0; i < 80; i++) {
+            const pieza = document.createElement('div')
+            pieza.className = 'confeti-pieza'
+            pieza.style.left = Math.random() * 100 + 'vw'
+            pieza.style.background = colores[Math.floor(Math.random() * colores.length)]
+            const duracion = (Math.random() * 2 + 2).toFixed(2)
+            const retraso = (Math.random() * 2).toFixed(2)
+            pieza.style.animationDuration = duracion + 's'
+            pieza.style.animationDelay = retraso + 's'
+            pieza.style.width = (Math.random() * 10 + 8) + 'px'
+            pieza.style.height = (Math.random() * 10 + 8) + 'px'
+            pieza.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px'
+            container.appendChild(pieza)
+        }
+    }
+
+    hablar('¡Felicidades Ximena! ¡Lo hiciste muy bien! ¡Ganaste!')
+}
+
+function cerrarYVolverMenu() {
+    window.close()
 }
 
 recognition.onerror = function(event) {
