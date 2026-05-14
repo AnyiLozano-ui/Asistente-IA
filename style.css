@@ -2098,6 +2098,120 @@ body {
     margin-top: 30px;
 }
 
+/* RESPONSIVE ROMPECABEZAS - MÓVIL */
+@media (max-width: 480px) {
+    .activity-screen.tipo-rompecabezas {
+        padding-top: 40px;
+        padding-bottom: 60px;
+        justify-content: flex-start;
+    }
+    
+    .activity-screen.tipo-rompecabezas #tituloActividad {
+        font-size: 24px;
+        margin-bottom: 20px;
+        margin-top: 60px;
+    }
+    
+    .activity-screen.tipo-rompecabezas .contenedor-juego {
+        max-width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        height: auto;
+    }
+    
+    .activity-screen.tipo-rompecabezas .lado-izquierdo {
+        width: 100%;
+        padding: 0 10px;
+        margin-bottom: 15px;
+    }
+    
+    .activity-screen.tipo-rompecabezas #pregunta {
+        font-size: 16px;
+        padding: 20px 15px !important;
+        margin-bottom: 15px;
+        min-height: auto;
+        background: #fff5e6;
+        border: 4px dashed #ff9b5a;
+        border-radius: 20px;
+    }
+    
+    .activity-screen.tipo-rompecabezas .lado-derecho {
+        width: 100%;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .activity-screen.tipo-rompecabezas .game-options {
+        width: 100%;
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .activity-screen.tipo-rompecabezas .option {
+        padding: 14px 12px;
+        font-size: 16px;
+        min-width: auto;
+        flex: 1 1 calc(50% - 6px);
+    }
+    
+    .activity-screen.tipo-rompecabezas .answer {
+        font-size: 14px;
+        padding: 12px 10px;
+        margin-top: 10px;
+    }
+    
+    .activity-screen.tipo-rompecabezas .score {
+        font-size: 12px;
+        padding: 8px 12px !important;
+        margin-top: 10px !important;
+        margin-bottom: 15px !important;
+    }
+}
+
+/* RESPONSIVE ROMPECABEZAS - TABLET PEQUEÑA */
+@media (min-width: 481px) and (max-width: 768px) {
+    .activity-screen.tipo-rompecabezas {
+        padding-top: 150px;
+        padding-bottom: 50px;
+        justify-content: flex-start;
+    }
+    
+    .activity-screen.tipo-rompecabezas #tituloActividad {
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
+    
+    .activity-screen.tipo-rompecabezas .contenedor-juego {
+        max-width: 95%;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+    
+    .activity-screen.tipo-rompecabezas #pregunta {
+        font-size: 18px;
+        padding: 25px 20px !important;
+        margin-bottom: 20px;
+    }
+    
+    .activity-screen.tipo-rompecabezas .lado-derecho {
+        margin-top: 20px;
+    }
+    
+    .activity-screen.tipo-rompecabezas .option {
+        padding: 16px 14px;
+        font-size: 18px;
+    }
+    
+    .activity-screen.tipo-rompecabezas .score {
+        font-size: 13px;
+        margin-top: 15px !important;
+        margin-bottom: 25px !important;
+        padding: 10px 15px !important;
+    }
+}
+
 /* ESTILOS PARA ASOCIA SONIDOS */
 .activity-screen.tipo-sonidos {
     display: flex;
@@ -2131,6 +2245,89 @@ body {
 .activity-screen.tipo-sonidos .lado-derecho {
     width: 100%;
     margin-top: 30px;
+}
+
+/* RESPONSIVE MOBILE - ASOCIA SONIDOS */
+@media (max-width: 480px) {
+    .activity-screen.tipo-sonidos {
+        padding-top: 40px;
+        padding-bottom: 60px;
+    }
+    
+    .activity-screen.tipo-sonidos .contenedor-juego {
+        padding: 15px;
+    }
+    
+    .activity-screen.tipo-sonidos #pregunta {
+        font-size: 16px;
+        padding: 15px;
+    }
+    
+    .activity-screen.tipo-sonidos #pregunta button {
+        font-size: 14px !important;
+        padding: 10px 20px !important;
+        margin-top: 15px !important;
+    }
+    
+    .activity-screen.tipo-sonidos #juegoOpciones {
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    .activity-screen.tipo-sonidos #juegoOpciones>div {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+    }
+    
+    .activity-screen.tipo-sonidos .option {
+        font-size: 50px !important;
+        min-height: 100px !important;
+        padding: 10px !important;
+    }
+    
+    .activity-screen.tipo-sonidos #puntaje {
+        display: none;
+    }
+    
+    .activity-screen.tipo-sonidos #respuesta {
+        font-size: 14px;
+    }
+}
+
+/* RESPONSIVE TABLET - ASOCIA SONIDOS */
+@media (481px <=width <=768px) {
+    .activity-screen.tipo-sonidos {
+        padding-top: 150px;
+        padding-bottom: 50px;
+    }
+    
+    .activity-screen.tipo-sonidos .contenedor-juego {
+        padding: 20px;
+    }
+    
+    .activity-screen.tipo-sonidos #pregunta {
+        font-size: 18px;
+        padding: 20px;
+    }
+    
+    .activity-screen.tipo-sonidos #pregunta button {
+        font-size: 16px !important;
+        padding: 12px 24px !important;
+        margin-top: 20px !important;
+    }
+    
+    .activity-screen.tipo-sonidos #juegoOpciones>div {
+        gap: 25px !important;
+    }
+    
+    .activity-screen.tipo-sonidos .option {
+        font-size: 60px !important;
+        min-height: 120px !important;
+    }
+    
+    .activity-screen.tipo-sonidos #puntaje {
+        font-size: 14px;
+    }
 }
 
 /* PANTALLA GANASTE */
