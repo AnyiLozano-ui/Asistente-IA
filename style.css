@@ -1005,7 +1005,7 @@ body {
 /* RESPONSIVE JUEGOS MENU - MÓVIL */
 @media (max-width: 480px) {
     #juegos {
-        padding-top: 30px;
+        padding-top: 70px;
         padding-bottom: 60px;
         justify-content: flex-start;
     }
@@ -1038,7 +1038,7 @@ body {
         height: 380px;
         align-content: flex-start;
     }
-
+    
     .juego-card {
         min-height: 160px;
         padding: 20px 15px;
@@ -1798,6 +1798,118 @@ body {
 .activity-screen.tipo-emojis .lado-derecho {
     width: 100%;
     margin-top: 30px;
+}
+
+/* RESPONSIVE ASOCIA EMOJIS - MÓVIL */
+@media (max-width: 480px) {
+    .activity-screen.tipo-emojis {
+        padding-top: 320px;
+        padding-bottom: 60px;
+        justify-content: flex-start;
+    }
+
+    .activity-screen.tipo-emojis #tituloActividad {
+        font-size: 24px;
+        margin-bottom: 20px;
+        margin-top: 60px;
+    }
+
+    .activity-screen.tipo-emojis .contenedor-juego {
+        max-width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        height: auto;
+    }
+
+    .activity-screen.tipo-emojis .lado-izquierdo {
+        width: 100%;
+        padding: 0 10px;
+        margin-bottom: 15px;
+    }
+
+    .activity-screen.tipo-emojis #pregunta {
+        font-size: 16px;
+        padding: 20px 15px !important;
+        margin-bottom: 15px;
+        min-height: auto;
+        background: #fff9e6;
+        border: 4px dashed #ffb300;
+        border-radius: 20px;
+    }
+
+    .activity-screen.tipo-emojis .lado-derecho {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .activity-screen.tipo-emojis .game-options {
+        width: 100%;
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .activity-screen.tipo-emojis .option {
+        padding: 14px 12px;
+        font-size: 16px;
+        min-width: auto;
+        flex: 1 1 calc(50% - 6px);
+    }
+
+    .activity-screen.tipo-emojis .answer {
+        font-size: 14px;
+        padding: 12px 10px;
+        margin-top: 10px;
+    }
+
+    .activity-screen.tipo-emojis .score {
+        font-size: 12px;
+        padding: 8px 12px !important;
+        margin-top: 10px !important;
+        margin-bottom: 15px !important;
+    }
+}
+
+/* RESPONSIVE ASOCIA EMOJIS - TABLET PEQUEÑA */
+@media (min-width: 481px) and (max-width: 768px) {
+    .activity-screen.tipo-emojis {
+        padding-top: 150px;
+        padding-bottom: 50px;
+        justify-content: flex-start;
+    }
+
+    .activity-screen.tipo-emojis #tituloActividad {
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
+
+    .activity-screen.tipo-emojis .contenedor-juego {
+        max-width: 95%;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+    .activity-screen.tipo-emojis #pregunta {
+        font-size: 18px;
+        padding: 25px 20px !important;
+        margin-bottom: 20px;
+    }
+
+    .activity-screen.tipo-emojis .lado-derecho {
+        margin-top: 20px;
+    }
+
+    .activity-screen.tipo-emojis .option {
+        padding: 16px 14px;
+        font-size: 18px;
+    }
+
+    .activity-screen.tipo-emojis .score {
+        font-size: 13px;
+        margin-top: 15px !important;
+        margin-bottom: 25px !important;
+        padding: 10px 15px !important;
+    }
 }
 
 /* ESTILOS PARA SECUENCIA DE COLORES */
