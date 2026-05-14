@@ -1026,11 +1026,17 @@ body {
     }
     
     .juegos-grid {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex !important;
+        flex-direction: column;
+        flex-wrap: wrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         gap: 15px;
         max-width: 100%;
-        padding: 0 12px;
+        padding: 0 12px 15px 12px;
         margin: 0 auto;
+        height: 380px;
+        align-content: flex-start;
     }
 
     .juego-card {
@@ -1038,6 +1044,9 @@ body {
         padding: 20px 15px;
         border-radius: 20px;
         box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.12);
+        flex-basis: calc(100% - 30px);
+        flex-shrink: 0;
+        width: calc(100% - 30px);
     }
     
     .juego-icono {
