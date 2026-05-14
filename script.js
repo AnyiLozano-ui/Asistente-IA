@@ -534,9 +534,19 @@ function mostrarGridOperaciones(tipo) {
     estadoMate = 'grid'
     const pregunta = document.getElementById('pregunta')
     const juegoOpciones = document.getElementById('juegoOpciones')
+    const respuesta = document.getElementById('respuesta')
     const titulo = document.getElementById('tituloActividad')
 
-    if (pregunta) pregunta.style.display = 'block'
+    // Reset y mostrar elementos necesarios
+    if (pregunta) {
+        pregunta.style.display = 'block'
+        pregunta.style.cssText = ''
+    }
+    if (juegoOpciones) {
+        juegoOpciones.style.display = 'flex'
+        juegoOpciones.style.cssText = ''
+    }
+    if (respuesta) respuesta.style.display = 'none'
 
     const tituloTipo = tipo === 'suma' ? '➕ Sumas' : tipo === 'resta' ? '➖ Restas' : '🎲 Mixto'
     if (titulo) {
