@@ -1998,10 +1998,10 @@ body {
     
     .activity-screen.tipo-colores .color-button {
         width: calc(25% - 9px);
-        height: 65px;
-        border-radius: 14px;
-        font-size: 12px;
-        padding: 6px;
+        height: 55px;
+        border-radius: 12px;
+        font-size: 11px;
+        padding: 5px;
     }
     
     .activity-screen.tipo-colores .answer {
