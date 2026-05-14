@@ -890,6 +890,12 @@ function nuevaOperacionMejorada(tipo) {
         esSuma = Math.random() > 0.5
     }
 
+    const pregunta = document.getElementById('pregunta')
+    const respuesta = document.getElementById('respuesta')
+
+    if (pregunta) pregunta.style.display = 'block'
+    if (respuesta) respuesta.style.display = 'none'
+
     if (esSuma) {
         respuestaCorrecta = numero1 + numero2
 
@@ -899,7 +905,9 @@ function nuevaOperacionMejorada(tipo) {
              <span style="font-size: 56px; font-weight: bold;">${numero1} + ${numero2}</span><br><br>
              <span style="font-size: 18px; color: #666;">¿Cuál es el resultado?</span>`
 
-        hablar(`Ximena, ¿cuánto es ${numero1} más ${numero2}?`)
+        hablar(`Ximena, ¿cuánto es ${numero1} más ${numero2}?`, () => {
+            try { recognition.start(); escuchando = true; } catch(e) {}
+        }, false)
     } else {
         const mayor = Math.max(numero1, numero2)
         const menor = Math.min(numero1, numero2)
@@ -912,7 +920,9 @@ function nuevaOperacionMejorada(tipo) {
              <span style="font-size: 56px; font-weight: bold;">${mayor} - ${menor}</span><br><br>
              <span style="font-size: 18px; color: #666;">¿Cuál es el resultado?</span>`
 
-        hablar(`Ximena, ¿cuánto es ${mayor} menos ${menor}?`)
+        hablar(`Ximena, ¿cuánto es ${mayor} menos ${menor}?`, () => {
+            try { recognition.start(); escuchando = true; } catch(e) {}
+        }, false)
     }
 }
 
@@ -923,13 +933,21 @@ function nuevaOperacion() {
     const numero2 = Math.floor(Math.random() * 20) + 1
     const esSuma = Math.random() > 0.5
 
+    const pregunta = document.getElementById('pregunta')
+    const respuesta = document.getElementById('respuesta')
+
+    if (pregunta) pregunta.style.display = 'block'
+    if (respuesta) respuesta.style.display = 'none'
+
     if (esSuma) {
         respuestaCorrecta = numero1 + numero2
 
         document.getElementById('pregunta').innerHTML =
             `➕ Suma<br><br>¿Cuánto es ${numero1} más ${numero2}?`
 
-        hablar(`Ximena, ¿cuánto es ${numero1} más ${numero2}?`)
+        hablar(`Ximena, ¿cuánto es ${numero1} más ${numero2}?`, () => {
+            try { recognition.start(); escuchando = true; } catch(e) {}
+        }, false)
     } else {
         const mayor = Math.max(numero1, numero2)
         const menor = Math.min(numero1, numero2)
@@ -939,7 +957,9 @@ function nuevaOperacion() {
         document.getElementById('pregunta').innerHTML =
             `➖ Resta<br><br>¿Cuánto es ${mayor} menos ${menor}?`
 
-        hablar(`Ximena, ¿cuánto es ${mayor} menos ${menor}?`)
+        hablar(`Ximena, ¿cuánto es ${mayor} menos ${menor}?`, () => {
+            try { recognition.start(); escuchando = true; } catch(e) {}
+        }, false)
     }
 }
 
@@ -1194,6 +1214,9 @@ function verificarRespuesta(respuestaUsuario, respuestaCorrecta, tipo) {
 
 function validarMatematicas(texto) {
     const numeroUsuario = convertirTextoANumero(texto)
+    const respuesta = document.getElementById('respuesta')
+
+    if (respuesta) respuesta.style.display = 'block'
 
     if (numeroUsuario === respuestaCorrecta) {
         puntaje++
