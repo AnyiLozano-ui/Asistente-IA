@@ -7,8 +7,21 @@ recognition.lang = 'es-ES'
 recognition.continuous = false
 recognition.interimResults = false
 
-const PUNTOS_PARA_GANAR = 5
+const PUNTOS_PARA_GANAR = 10
 const PUNTOS_TABLAS = 10
+
+let palabrasDisponibles = []
+let indiceActual = 0
+
+function obtenerPalabraAleatoria() {
+    if (palabrasDisponibles.length === 0) {
+        palabrasDisponibles = [...juegoPalabras].sort(() => Math.random() - 0.5)
+        indiceActual = 0
+    }
+    const palabra = palabrasDisponibles[indiceActual]
+    indiceActual++
+    return palabra
+}
 
 let modo = ''
 let palabraActual = ''
@@ -27,6 +40,11 @@ let tableroMemoria = []
 let cartasVolteadas = []
 let cartasPareadas = []
 let bloquearTablero = false
+let secuenciaColores = []
+let inputJugador = []
+let rondaColores = 0
+let letrasSeleccionadas = []
+let palabraRompecabezas = ''
 
 const palabrasXimena = [
     { palabra: 'dado', silabas: 'da-do', nivel: 1 },
@@ -183,7 +201,7 @@ function cargarVoz() {
 speechSynthesis.onvoiceschanged = cargarVoz
 cargarVoz()
 
-function hablar(texto, callback = null) {
+function hablar(texto, callback = null, autoStart = true) {
     try {
         recognition.stop()
     } catch (e) {}
@@ -206,11 +224,13 @@ function hablar(texto, callback = null) {
         if (callbackEjecutado) return
         callbackEjecutado = true
 
-        try {
-            recognition.start()
-            escuchando = true
-        } catch (e) {
-            console.error('Error iniciando reconocimiento:', e)
+        if (autoStart) {
+            try {
+                recognition.start()
+                escuchando = true
+            } catch (e) {
+                console.error('Error iniciando reconocimiento:', e)
+            }
         }
 
         if (callback) {
@@ -267,15 +287,13 @@ function abrirMenuJuegos() {
     window.open(`games.html`, '_blank')
 }
 
-function abrirLogros() {
-    document.getElementById('menu').classList.remove('active')
-    document.getElementById('actividad').classList.remove('active')
-    document.getElementById('logros').classList.add('active')
+function descargarMaterial() {
+    window.open('material.html', '_blank')
 }
 
 function volverMenu() {
-    document.getElementById('logros').classList.remove('active')
     document.getElementById('menu').classList.add('active')
+    document.getElementById('material').classList.remove('active')
 }
 
 function iniciarPronunciacion() {
@@ -298,9 +316,7 @@ function iniciarTablas() {
     reiniciarJuego('tablas')
     tablaSeleccionada = null
 
-    hablar('Hola Ximena, vamos a practicar tablas de multiplicar', () => {
-        mostrarSelectorTablas()
-    })
+    mostrarSelectorTablas()
 }
 
 function mostrarSelectorTablas() {
@@ -342,7 +358,9 @@ function mostrarSelectorTablas() {
         }
     }
 
-    hablar('Selecciona una tabla. Puedes practicar todas las tablas o elegir una específica')
+    hablar('Selecciona una tabla. Puedes practicar todas las tablas o elegir una específica', () => {
+        try { recognition.stop(); escuchando = false; } catch(e) {}
+    }, false)
 }
 
 function seleccionarTabla(numero) {
@@ -359,15 +377,13 @@ function seleccionarTabla(numero) {
     if (respuesta) respuesta.style.display = 'block'
     if (puntaje) puntaje.style.display = 'block'
 
+    // Iniciar reconocimiento de voz para la práctica
+    try { recognition.start(); escuchando = true; } catch(e) {}
+
     if (numero === null) {
-        hablar('Excelente. Vamos a practicar todas las tablas. Repite después de mí', () => {
-            nuevaTablaPractica()
-        })
+        nuevaTablaPractica()
     } else {
-        const mensaje = `Excelente. Vamos a practicar la tabla del ${numero}`
-        hablar(mensaje, () => {
-            nuevaTabla()
-        })
+        nuevaTabla()
     }
 }
 
@@ -376,7 +392,7 @@ function iniciarSumasRestas() {
 
     hablar('Hola Ximena, vamos a practicar sumas y restas', () => {
         mostrarSelectorOperacion()
-    })
+    }, false)
 }
 
 function mostrarSelectorOperacion() {
@@ -414,7 +430,9 @@ function mostrarSelectorOperacion() {
     if (respuesta) respuesta.style.display = 'none'
     if (puntaje) puntaje.style.display = 'block'
 
-    hablar('Puedes seleccionar sumas, restas o una mezcla')
+    hablar('Puedes seleccionar sumas, restas o una mezcla', () => {
+        try { recognition.stop(); escuchando = false; } catch(e) {}
+    }, false)
 }
 
 function seleccionarTipoOperacion(tipo) {
@@ -422,13 +440,10 @@ function seleccionarTipoOperacion(tipo) {
     tipoOperacionActual = tipo
     const respuesta = document.getElementById('respuesta')
 
-    // Detener el micrófono para matemáticas
-    try {
-        recognition.stop()
-        escuchando = false
-    } catch (e) {}
-
     if (respuesta) respuesta.style.display = 'none'
+
+    // Iniciar reconocimiento de voz para la operación
+    try { recognition.start(); escuchando = true; } catch(e) {}
 
     // Resaltar el botón seleccionado
     const btnSuma = document.getElementById('btn-suma')
@@ -936,8 +951,7 @@ function nuevoJuego() {
         escuchando = false
     } catch (e) {}
 
-    juegoActual =
-        juegoPalabras[Math.floor(Math.random() * juegoPalabras.length)]
+    juegoActual = obtenerPalabraAleatoria()
 
     document.getElementById('pregunta').innerHTML =
         `🎮 Atrapa la palabra correcta<br><br>
@@ -1104,13 +1118,9 @@ function validarSilabas(texto) {
         document.getElementById('puntaje').textContent =
             '⭐ Puntaje: ' + puntaje
 
-        if (puntaje >= PUNTOS_PARA_GANAR) {
-            mostrarPantallaGanaste()
-        } else {
-            hablar(`Muy bien Ximena. La palabra era ${correcta}`, () => {
-                setTimeout(nuevaSilaba, 2000)
-            })
-        }
+        hablar(`Muy bien Ximena. La palabra era ${correcta}`, () => {
+            setTimeout(nuevaSilaba, 2000)
+        })
     } else {
         intentos++
 
@@ -1195,7 +1205,7 @@ function validarMatematicas(texto) {
         if (puntaje >= PUNTOS_TABLAS) {
             mostrarPantallaGanaste()
         } else {
-            hablar('¡Excelente! ¡Muy bien Ximena! 🎉', () => {
+            hablar('¡Felicidades! ¡Muy bien!', () => {
                 setTimeout(() => {
                     if (modo === 'tablas') nuevaTabla()
                     else if (tipoOperacionActual) nuevaOperacionMejorada(tipoOperacionActual)
@@ -1285,31 +1295,289 @@ function mostrarPantallaGanaste() {
     const pantalla = document.getElementById('pantallaGanaste')
     if (pantalla) pantalla.classList.remove('oculta')
 
-    const container = document.getElementById('confeti-container')
-    if (container) {
-        container.innerHTML = ''
-        const colores = ['#ff4fa3','#8057ff','#26bfff','#ffb300','#0ec2a5','#ff765c','#ffd968']
-        for (let i = 0; i < 80; i++) {
-            const pieza = document.createElement('div')
-            pieza.className = 'confeti-pieza'
-            pieza.style.left = Math.random() * 100 + 'vw'
-            pieza.style.background = colores[Math.floor(Math.random() * colores.length)]
-            const duracion = (Math.random() * 2 + 2).toFixed(2)
-            const retraso = (Math.random() * 2).toFixed(2)
-            pieza.style.animationDuration = duracion + 's'
-            pieza.style.animationDelay = retraso + 's'
-            pieza.style.width = (Math.random() * 10 + 8) + 'px'
-            pieza.style.height = (Math.random() * 10 + 8) + 'px'
-            pieza.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px'
-            container.appendChild(pieza)
-        }
-    }
+    // Confeti desactivado
+    // const container = document.getElementById('confeti-container')
+    // if (container) {
+    //     container.innerHTML = ''
+    //     const colores = ['#ff4fa3','#8057ff','#26bfff','#ffb300','#0ec2a5','#ff765c','#ffd968']
+    //     for (let i = 0; i < 80; i++) {
+    //         const pieza = document.createElement('div')
+    //         pieza.className = 'confeti-pieza'
+    //         pieza.style.left = Math.random() * 100 + 'vw'
+    //         pieza.style.background = colores[Math.floor(Math.random() * colores.length)]
+    //         const duracion = (Math.random() * 2 + 2).toFixed(2)
+    //         const retraso = (Math.random() * 2).toFixed(2)
+    //         pieza.style.animationDuration = duracion + 's'
+    //         pieza.style.animationDelay = retraso + 's'
+    //         pieza.style.width = (Math.random() * 10 + 8) + 'px'
+    //         pieza.style.height = (Math.random() * 10 + 8) + 'px'
+    //         pieza.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px'
+    //         container.appendChild(pieza)
+    //     }
+    // }
 
     hablar('¡Felicidades Ximena! ¡Lo hiciste muy bien! ¡Ganaste!')
 }
 
 function cerrarYVolverMenu() {
     window.close()
+}
+
+// JUEGO 1: ASOCIA EMOJIS
+function iniciarEmojis() {
+    reiniciarJuego('emojis')
+    try { recognition.stop(); escuchando = false } catch (e) {}
+    document.getElementById('respuesta').style.display = 'none'
+    hablar('Hola Ximena. Vamos a asociar emojis con palabras', () => { nuevoTurnoEmojis() })
+}
+
+function nuevoTurnoEmojis() {
+    juegoActual = obtenerPalabraAleatoria()
+    document.getElementById('pregunta').innerHTML =
+        `<div style="font-size:120px; text-align:center;">${juegoActual.emoji}</div>
+         <div style="font-size:22px; margin-top:15px; color:#666;">¿Cómo se llama?</div>`
+
+    const distractores = juegoPalabras
+        .filter(p => p.correcta !== juegoActual.correcta)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3)
+        .map(p => p.correcta)
+    const opciones = [juegoActual.correcta, ...distractores].sort(() => Math.random() - 0.5)
+
+    document.getElementById('juegoOpciones').innerHTML = opciones.map(op => `
+        <button class="option" onclick="validarEmojis('${op}', this)">
+            <span style="font-size:20px;">${op}</span>
+        </button>
+    `).join('')
+
+    hablar(`¿Cómo se llama este emoji?`)
+}
+
+function validarEmojis(opcion, el) {
+    try { recognition.stop(); escuchando = false } catch (e) {}
+    speechSynthesis.cancel()
+    document.querySelectorAll('#juegoOpciones .option').forEach(b => {
+        b.disabled = true; b.style.pointerEvents = 'none'
+    })
+    if (opcion === juegoActual.correcta) {
+        el.style.background = 'linear-gradient(135deg, #0ec2a5, #0aa994)'
+        el.style.color = 'white'
+        puntaje++
+        document.getElementById('puntaje').textContent = '⭐ Puntaje: ' + puntaje
+        if (puntaje >= PUNTOS_PARA_GANAR) { mostrarPantallaGanaste(); return }
+        hablar('¡Muy bien Ximena!', () => { setTimeout(nuevoTurnoEmojis, 1500) })
+    } else {
+        el.style.background = 'linear-gradient(135deg, #ff4fa3, #e63a90)'
+        el.style.color = 'white'
+        hablar('No es esa. Intenta de nuevo', () => { setTimeout(nuevoTurnoEmojis, 1500) })
+    }
+}
+
+// JUEGO 2: SECUENCIA DE COLORES
+const COLORES_JUEGO = [
+    { id: 'rosa', color: '#ff4fa3', nombre: 'Rosa' },
+    { id: 'azul', color: '#26bfff', nombre: 'Azul' },
+    { id: 'verde', color: '#0ec2a5', nombre: 'Verde' },
+    { id: 'amarillo', color: '#ffb300', nombre: 'Amarillo' },
+    { id: 'morado', color: '#8057ff', nombre: 'Morado' },
+    { id: 'naranja', color: '#ff765c', nombre: 'Naranja' }
+]
+
+function iniciarColores() {
+    reiniciarJuego('colores')
+    try { recognition.stop(); escuchando = false } catch (e) {}
+    document.getElementById('respuesta').style.display = 'none'
+    secuenciaColores = []; inputJugador = []; rondaColores = 0
+    hablar('Hola Ximena. Mira los colores que se iluminan y repite la secuencia', () => { nuevaRondaColores() })
+}
+
+function nuevaRondaColores() {
+    rondaColores++
+    const colorAleatorio = COLORES_JUEGO[Math.floor(Math.random() * COLORES_JUEGO.length)]
+    secuenciaColores.push(colorAleatorio)
+    inputJugador = []
+
+    document.getElementById('pregunta').innerHTML =
+        `🎨 Secuencia de colores<br><br><span style="font-size:20px;">Ronda ${rondaColores} — Repite</span>`
+    document.getElementById('puntaje').textContent = '⭐ Ronda: ' + rondaColores + '/5'
+
+    renderizarBotonesColores(false)
+    setTimeout(() => mostrarSecuenciaColores(0), 800)
+}
+
+function renderizarBotonesColores(activo) {
+    document.getElementById('juegoOpciones').innerHTML = `
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:500px; margin:0 auto;">
+            ${COLORES_JUEGO.map(c => `
+                <button id="btn-color-${c.id}"
+                    onclick="${activo ? `seleccionarColor('${c.id}')` : ''}"
+                    style="width:130px; height:130px; border-radius:24px; border:none;
+                           background:${c.color}; cursor:${activo?'pointer':'default'};
+                           box-shadow:0 6px 16px rgba(0,0,0,0.2); opacity:0.6;
+                           transition:all 0.2s; font-size:18px; font-weight:900; color:white;">
+                    ${c.nombre}
+                </button>`).join('')}
+        </div>`
+}
+
+function mostrarSecuenciaColores(index) {
+    if (index >= secuenciaColores.length) {
+        renderizarBotonesColores(true)
+        hablar('¡Ahora tú! Repite la secuencia')
+        return
+    }
+    const c = secuenciaColores[index]
+    const btn = document.getElementById('btn-color-' + c.id)
+    if (btn) {
+        btn.style.opacity = '1'
+        btn.style.transform = 'scale(1.15)'
+        setTimeout(() => {
+            btn.style.opacity = '0.6'
+            btn.style.transform = 'scale(1)'
+            setTimeout(() => mostrarSecuenciaColores(index + 1), 400)
+        }, 600)
+    }
+}
+
+function seleccionarColor(colorId) {
+    const btn = document.getElementById('btn-color-' + colorId)
+    if (btn) { btn.style.opacity = '1'; btn.style.transform = 'scale(1.1)';
+        setTimeout(() => { btn.style.opacity = '0.6'; btn.style.transform = 'scale(1)' }, 300) }
+    inputJugador.push(colorId)
+    const pos = inputJugador.length - 1
+    if (inputJugador[pos] !== secuenciaColores[pos].id) {
+        hablar('No es esa secuencia. Observa de nuevo', () => {
+            inputJugador = []
+            setTimeout(() => mostrarSecuenciaColores(0), 800)
+        })
+        return
+    }
+    if (inputJugador.length === secuenciaColores.length) {
+        puntaje++
+        document.getElementById('puntaje').textContent = '⭐ Ronda: ' + rondaColores
+        if (rondaColores >= 10) { mostrarPantallaGanaste(); return }
+        hablar('¡Muy bien! Siguiente ronda', () => { setTimeout(nuevaRondaColores, 1000) })
+    }
+}
+
+// JUEGO 3: ROMPECABEZAS
+function iniciarRompecabezas() {
+    reiniciarJuego('rompecabezas')
+    try { recognition.stop(); escuchando = false } catch (e) {}
+    document.getElementById('respuesta').style.display = 'none'
+    hablar('Hola Ximena. Ordena las letras para formar la palabra', () => { nuevoRompecabezas() })
+}
+
+function nuevoRompecabezas() {
+    juegoActual = obtenerPalabraAleatoria()
+    palabraRompecabezas = juegoActual.correcta.toLowerCase()
+    letrasSeleccionadas = []
+
+    const letrasDesordenadas = palabraRompecabezas.split('').sort(() => Math.random() - 0.5)
+
+    document.getElementById('pregunta').innerHTML =
+        `<div style="font-size:100px; text-align:center; margin-bottom:80px;">${juegoActual.emoji}</div>
+         <div id="letras-formadas" style="font-size:36px; font-weight:900; color:#8057ff;
+              min-height:50px; text-align:center; letter-spacing:8px;">_</div>`
+
+    document.getElementById('juegoOpciones').innerHTML = `
+        <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; max-width:600px;">
+            ${letrasDesordenadas.map((l, i) => `
+                <button id="letra-${i}" class="option"
+                    onclick="seleccionarLetra('${l}', ${i})"
+                    style="width:70px; height:70px; font-size:28px; padding:0; display:flex;
+                           justify-content:center; align-items:center;">
+                    ${l.toUpperCase()}
+                </button>`).join('')}
+        </div>`
+
+    document.getElementById('puntaje').textContent = '⭐ Puntaje: ' + puntaje
+    hablar(`Ordena las letras para formar la palabra`)
+}
+
+function seleccionarLetra(letra, indice) {
+    const btn = document.getElementById('letra-' + indice)
+    if (!btn || btn.disabled) return
+    btn.disabled = true
+    btn.style.opacity = '0.3'
+    letrasSeleccionadas.push(letra)
+
+    const formadas = letrasSeleccionadas.join('').toUpperCase()
+    const espacios = '_'.repeat(Math.max(0, palabraRompecabezas.length - letrasSeleccionadas.length))
+    document.getElementById('letras-formadas').textContent = formadas + (espacios ? ' ' + espacios : '')
+
+    if (letrasSeleccionadas.length === palabraRompecabezas.length) {
+        if (letrasSeleccionadas.join('') === palabraRompecabezas) {
+            puntaje++
+            document.getElementById('puntaje').textContent = '⭐ Puntaje: ' + puntaje
+            if (puntaje >= PUNTOS_PARA_GANAR) { mostrarPantallaGanaste(); return }
+            hablar('¡Excelente!', () => { setTimeout(nuevoRompecabezas, 1500) })
+        } else {
+            hablar('No es correcta. Intenta de nuevo', () => { setTimeout(nuevoRompecabezas, 1500) })
+        }
+    }
+}
+
+// JUEGO 4: ASOCIA SONIDOS
+function iniciarSonidos() {
+    reiniciarJuego('sonidos')
+    try { recognition.stop(); escuchando = false } catch (e) {}
+    document.getElementById('respuesta').style.display = 'none'
+    hablar('Hola Ximena. Escucha la palabra y toca el emoji correcto', () => { nuevoTurnoSonidos() })
+}
+
+function repetirPalabraSonidos() {
+    hablar(juegoActual.correcta)
+}
+
+function nuevoTurnoSonidos() {
+    juegoActual = obtenerPalabraAleatoria()
+
+    const distractores = juegoPalabras
+        .filter(p => p.correcta !== juegoActual.correcta)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3)
+    const opciones = [juegoActual, ...distractores].sort(() => Math.random() - 0.5)
+
+    document.getElementById('pregunta').innerHTML =
+        `<div style="text-align:center; width:100%;">
+             🔊 Escucha y toca el emoji correcto<br><br>
+             <button onclick="repetirPalabraSonidos()" style="background:#8057ff; color:white;
+                 border:none; border-radius:20px; padding:12px 24px; font-size:18px;
+                 cursor:pointer; font-weight:900; display:block; margin:20px auto 0;">🔁 Repetir</button>
+         </div>`
+
+    document.getElementById('juegoOpciones').innerHTML = `
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:20px; max-width:500px;">
+            ${opciones.map(op => `
+                <button class="option" onclick="validarSonidos('${op.correcta}', this)"
+                    style="font-size:70px; min-height:130px; display:flex; flex-direction:column;
+                           justify-content:center; align-items:center; padding:15px;">
+                    ${op.emoji}
+                </button>`).join('')}
+        </div>`
+
+    document.getElementById('puntaje').textContent = '⭐ Puntaje: ' + puntaje
+    setTimeout(() => hablar(juegoActual.correcta), 400)
+}
+
+function validarSonidos(opcion, el) {
+    try { recognition.stop(); escuchando = false } catch (e) {}
+    speechSynthesis.cancel()
+    document.querySelectorAll('#juegoOpciones .option').forEach(b => {
+        b.disabled = true; b.style.pointerEvents = 'none'
+    })
+    if (opcion === juegoActual.correcta) {
+        el.style.background = 'linear-gradient(135deg, #0ec2a5, #0aa994)'
+        puntaje++
+        document.getElementById('puntaje').textContent = '⭐ Puntaje: ' + puntaje
+        if (puntaje >= PUNTOS_PARA_GANAR) { mostrarPantallaGanaste(); return }
+        hablar('¡Muy bien!', () => { setTimeout(nuevoTurnoSonidos, 1500) })
+    } else {
+        el.style.background = 'linear-gradient(135deg, #ff4fa3, #e63a90)'
+        el.style.color = 'white'
+        hablar('Incorrecto, vamos con la siguiente', () => { setTimeout(nuevoTurnoSonidos, 1500) })
+    }
 }
 
 recognition.onerror = function(event) {
