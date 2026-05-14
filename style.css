@@ -1997,11 +1997,11 @@ body {
     }
     
     .activity-screen.tipo-colores .color-button {
-        width: calc(25% - 9px);
-        height: 55px;
-        border-radius: 12px;
-        font-size: 11px;
-        padding: 5px;
+        width: calc(50% - 8px);
+        height: 100px;
+        border-radius: 16px;
+        font-size: 14px;
+        padding: 10px;
     }
     
     .activity-screen.tipo-colores .answer {
