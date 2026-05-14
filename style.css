@@ -1437,61 +1437,61 @@ body {
 /* RESPONSIVE MEMORIA - MÓVIL */
 @media (max-width: 480px) {
     .activity-screen.tipo-memoria {
-        padding-top: 340px;
+        padding-top: 30px;
         padding-bottom: 60px;
         justify-content: flex-start;
     }
-
+    
     .activity-screen.tipo-memoria #tituloActividad {
         font-size: 24px;
         margin-bottom: 20px;
         margin-top: 60px;
     }
-
+    
     .activity-screen.tipo-memoria .contenedor-juego {
         max-width: 100%;
         padding: 15px;
         margin-bottom: 20px;
     }
-
+    
     .activity-screen.tipo-memoria .game-options {
         width: 100%;
         max-width: 100%;
     }
-
+    
     .memoria-grid {
         width: 100%;
         max-width: 100%;
         grid-template-columns: repeat(3, 1fr) !important;
-        gap: 12px !important;
-        padding: 10px;
+        gap: 16px !important;
+        padding: 8px;
     }
 
     .memoria-carta {
-        aspect-ratio: 0.95;
-        min-height: 100px !important;
+        aspect-ratio: 1;
+        min-height: 90px !important;
         font-size: 32px !important;
     }
-
+    
     .memoria-cara-frontal {
         font-size: 40px !important;
     }
-
+    
     .memoria-cara-trasera {
         font-size: 16px;
     }
-
+    
     .memoria-emoji {
         font-size: 24px;
     }
-
+    
     .activity-screen.tipo-memoria .puntaje {
         font-size: 12px;
         margin-top: 10px !important;
         margin-bottom: 15px !important;
         padding: 8px 12px !important;
     }
-
+    
     .activity-screen.tipo-memoria .question {
         font-size: 14px;
         padding: 15px 12px !important;
@@ -1506,36 +1506,36 @@ body {
         padding-bottom: 40px;
         justify-content: flex-start;
     }
-
+    
     .activity-screen.tipo-memoria #tituloActividad {
         font-size: 28px;
         margin-bottom: 25px;
     }
-
+    
     .activity-screen.tipo-memoria .contenedor-juego {
         max-width: 95%;
         padding: 20px;
         margin-bottom: 25px;
     }
-
+    
     .memoria-grid {
         grid-template-columns: repeat(4, 1fr) !important;
         gap: 15px !important;
     }
-
+    
     .memoria-carta {
         aspect-ratio: 0.95;
         min-height: 120px !important;
     }
-
+    
     .memoria-cara-trasera {
         font-size: 18px;
     }
-
+    
     .memoria-emoji {
         font-size: 28px;
     }
-
+    
     .activity-screen.tipo-memoria .puntaje {
         font-size: 13px;
         margin-top: 8px !important;
