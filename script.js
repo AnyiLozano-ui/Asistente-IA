@@ -1095,6 +1095,11 @@ recognition.onresult = function(event) {
         return
     }
 
+    // No mostrar mensaje en modo grid o resolviendo de matemáticas (usan clic, no voz)
+    if (modo === 'matematicas' && (estadoMate === 'grid' || estadoMate === 'resolviendo')) {
+        return
+    }
+
     document.getElementById('respuesta').textContent =
         '🗣️ Ximena dijo: ' + texto
 
