@@ -537,32 +537,35 @@ body {
 @media (max-width: 480px) {
     .activity-screen.tipo-matematicas {
         min-height: auto;
-        padding-top: 320px;
-        padding-bottom: 30px;
+        padding-top: 340px;
+        padding-bottom: 80px;
         justify-content: flex-start;
     }
 
     .activity-screen.tipo-matematicas .contenedor-juego {
         max-width: 100%;
-        padding: 0 12px;
+        padding: 20px 12px;
+        margin-bottom: 30px;
     }
 
     .activity-screen.tipo-matematicas #tituloActividad {
         font-size: 24px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         margin-top: 80px;
     }
 
     .activity-screen.tipo-matematicas .question {
         font-size: 15px;
-        padding: 18px 16px !important;
-        gap: 12px !important;
+        padding: 25px 16px !important;
+        gap: 15px !important;
+        margin-bottom: 15px;
     }
 
     .activity-screen.tipo-matematicas .score {
         font-size: 13px;
         padding: 12px;
-        margin-top: 3px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20px;
     }
 }
 
