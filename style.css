@@ -1407,6 +1407,114 @@ body {
     justify-content: center;
 }
 
+/* RESPONSIVE ATRAPA LA PALABRA - MÓVIL */
+@media (max-width: 480px) {
+    .activity-screen.tipo-juego {
+        padding-top: 320px;
+        padding-bottom: 80px;
+        justify-content: flex-start;
+    }
+
+    .activity-screen.tipo-juego #tituloActividad {
+        font-size: 24px;
+        margin-bottom: 20px;
+        margin-top: 60px;
+    }
+
+    .activity-screen.tipo-juego .contenedor-juego {
+        max-width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        height: auto;
+    }
+
+    .activity-screen.tipo-juego .lado-izquierdo {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .activity-screen.tipo-juego #pregunta {
+        font-size: 16px;
+        padding: 20px 15px !important;
+        margin-bottom: 15px;
+        min-height: auto;
+    }
+
+    .activity-screen.tipo-juego .lado-derecho {
+        width: 100%;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .option {
+        padding: 16px 14px;
+        font-size: 18px;
+        min-width: 90px;
+        margin: 5px;
+    }
+
+    .activity-screen.tipo-juego .puntaje {
+        position: relative;
+        bottom: auto;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 15px;
+        margin-bottom: 20px;
+        font-size: 12px;
+        padding: 8px 12px !important;
+    }
+
+    .activity-screen.tipo-juego .answer {
+        font-size: 14px;
+        padding: 12px 10px;
+        margin-top: 10px;
+    }
+}
+
+/* RESPONSIVE ATRAPA LA PALABRA - TABLET PEQUEÑA */
+@media (min-width: 481px) and (max-width: 768px) {
+    .activity-screen.tipo-juego {
+        padding-top: 150px;
+        padding-bottom: 50px;
+        justify-content: flex-start;
+    }
+
+    .activity-screen.tipo-juego #tituloActividad {
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
+
+    .activity-screen.tipo-juego .contenedor-juego {
+        max-width: 95%;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+    .activity-screen.tipo-juego #pregunta {
+        font-size: 18px;
+        padding: 25px 20px !important;
+        margin-bottom: 20px;
+    }
+
+    .activity-screen.tipo-juego .lado-derecho {
+        margin-top: 20px;
+    }
+
+    .option {
+        padding: 18px 16px;
+        font-size: 20px;
+        min-width: 110px;
+    }
+
+    .activity-screen.tipo-juego .puntaje {
+        font-size: 13px;
+        margin-top: 15px !important;
+        margin-bottom: 25px !important;
+        padding: 10px 15px !important;
+    }
+}
+
 /* ESTILOS PARA MEMORIA */
 .activity-screen.tipo-memoria {
     display: flex;
