@@ -1950,30 +1950,30 @@ body {
 /* RESPONSIVE SECUENCIA DE COLORES - MÓVIL */
 @media (max-width: 480px) {
     .activity-screen.tipo-colores {
-        padding-top: 320px;
+        padding-top: 40px;
         padding-bottom: 60px;
         justify-content: flex-start;
     }
-
+    
     .activity-screen.tipo-colores #tituloActividad {
         font-size: 24px;
         margin-bottom: 20px;
         margin-top: 60px;
     }
-
+    
     .activity-screen.tipo-colores .contenedor-juego {
         max-width: 100%;
         padding: 15px;
         margin-bottom: 20px;
         height: auto;
     }
-
+    
     .activity-screen.tipo-colores .lado-izquierdo {
         width: 100%;
         padding: 0 10px;
         margin-bottom: 15px;
     }
-
+    
     .activity-screen.tipo-colores #pregunta {
         font-size: 16px;
         padding: 20px 15px !important;
@@ -1983,33 +1983,33 @@ body {
         border: 4px dashed #0ec2a5;
         border-radius: 20px;
     }
-
+    
     .activity-screen.tipo-colores .lado-derecho {
         width: 100%;
         margin-top: 15px;
     }
-
+    
     .activity-screen.tipo-colores .game-options {
         width: 100%;
         max-width: 100%;
         flex-wrap: wrap;
         gap: 12px;
     }
-
+    
     .activity-screen.tipo-colores .color-button {
         width: calc(25% - 9px);
-        height: 80px;
-        border-radius: 16px;
-        font-size: 14px;
-        padding: 8px;
+        height: 65px;
+        border-radius: 14px;
+        font-size: 12px;
+        padding: 6px;
     }
-
+    
     .activity-screen.tipo-colores .answer {
         font-size: 14px;
         padding: 12px 10px;
         margin-top: 10px;
     }
-
+    
     .activity-screen.tipo-colores .score {
         font-size: 12px;
         padding: 8px 12px !important;
@@ -2025,28 +2025,28 @@ body {
         padding-bottom: 50px;
         justify-content: flex-start;
     }
-
+    
     .activity-screen.tipo-colores #tituloActividad {
         font-size: 28px;
         margin-bottom: 25px;
     }
-
+    
     .activity-screen.tipo-colores .contenedor-juego {
         max-width: 95%;
         padding: 20px;
         margin-bottom: 25px;
     }
-
+    
     .activity-screen.tipo-colores #pregunta {
         font-size: 18px;
         padding: 25px 20px !important;
         margin-bottom: 20px;
     }
-
+    
     .activity-screen.tipo-colores .lado-derecho {
         margin-top: 20px;
     }
-
+    
     .activity-screen.tipo-colores .color-button {
         width: calc(25% - 12px);
         height: 100px;
@@ -2054,7 +2054,7 @@ body {
         font-size: 16px;
         padding: 10px;
     }
-
+    
     .activity-screen.tipo-colores .score {
         font-size: 13px;
         margin-top: 15px !important;
