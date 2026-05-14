@@ -1660,6 +1660,12 @@ recognition.onerror = function(event) {
 }
 
 recognition.onend = function() {
+    // En modo pronunciación, no reiniciar automáticamente - esperar a que el usuario clickee el botón
+    if (modo === 'pronunciacion') {
+        escuchando = false
+        return
+    }
+
     if (escuchando) {
         try {
             recognition.start()
