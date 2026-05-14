@@ -13,8 +13,11 @@ function volverMenu() {
     // Para matemáticas, siempre vuelve al selector
     if (typeof tipoOperacionActual !== 'undefined' && tipoOperacionActual) {
         if (typeof estadoMate !== 'undefined' && estadoMate === 'selector') {
-            // Si estamos en el selector, cierra
-            window.close()
+            // Si estamos en el selector, refresca la actividad
+            tipoOperacionActual = null
+            puntaje = 0
+            intentos = 0
+            iniciarSumasRestas()
         } else {
             // En cualquier otra parte, vuelve al selector
             mostrarSelectorOperacion()
@@ -72,6 +75,22 @@ window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('tituloActividad').textContent = '🧠 Memoria'
             actividad.classList.add('tipo-memoria')
             iniciarMemoria()
+        } else if (tipo === 'emojis') {
+            document.getElementById('tituloActividad').textContent = '😊 Asocia Emojis'
+            actividad.classList.add('tipo-emojis')
+            iniciarEmojis()
+        } else if (tipo === 'colores') {
+            document.getElementById('tituloActividad').textContent = '🎨 Secuencia de Colores'
+            actividad.classList.add('tipo-colores')
+            iniciarColores()
+        } else if (tipo === 'rompecabezas') {
+            document.getElementById('tituloActividad').textContent = '🧩 Rompecabezas'
+            actividad.classList.add('tipo-rompecabezas')
+            iniciarRompecabezas()
+        } else if (tipo === 'sonidos') {
+            document.getElementById('tituloActividad').textContent = '🔊 Asocia Sonidos'
+            actividad.classList.add('tipo-sonidos')
+            iniciarSonidos()
         }
     }, 500)
 })
