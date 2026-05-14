@@ -841,12 +841,20 @@ function nuevaPalabra() {
 }
 
 function iniciarEscucha() {
-    document.getElementById('botonEscuchar').style.display = 'none'
+    const boton = document.getElementById('botonEscuchar')
+    boton.style.display = 'none'
+
+    try {
+        recognition.abort()
+    } catch (e) {}
+
     try {
         recognition.start()
         escuchando = true
+        document.getElementById('respuesta').textContent = '🎤 Escuchando...'
     } catch (e) {
         console.error('Error iniciando reconocimiento:', e)
+        boton.style.display = 'block'
     }
 }
 
@@ -1643,6 +1651,12 @@ function validarSonidos(opcion, el) {
 recognition.onerror = function(event) {
     console.error('Error de reconocimiento de voz:', event.error)
     escuchando = false
+
+    // En modo pronunciación, mostrar el botón nuevamente si hay error
+    if (modo === 'pronunciacion') {
+        document.getElementById('botonEscuchar').style.display = 'block'
+        document.getElementById('respuesta').textContent = '❌ Error al escuchar. Intenta de nuevo.'
+    }
 }
 
 recognition.onend = function() {
