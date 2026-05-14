@@ -3211,14 +3211,48 @@ body {
         font-size: 36px;
         margin-bottom: 25px;
     }
-    
+
     .activity-screen.tipo-tablas .question {
         padding: 30px 35px !important;
         gap: 18px !important;
     }
-    
+
     .activity-screen.tipo-tablas .score {
         font-size: 18px;
         padding: 16px;
+    }
+}
+
+/* Botón de escucha para Pronunciación */
+.boton-escuchar {
+    background: linear-gradient(135deg, #ff4fa3 0%, #ff1493 100%);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+    box-shadow: 0 4px 15px rgba(255, 79, 163, 0.4);
+    transition: all 0.3s ease;
+    font-family: 'Comic Sans MS', Arial, sans-serif;
+}
+
+.boton-escuchar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 79, 163, 0.6);
+}
+
+.boton-escuchar:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(255, 79, 163, 0.4);
+}
+
+@media (max-width: 768px) {
+    .boton-escuchar {
+        padding: 14px 28px;
+        font-size: 16px;
     }
 }

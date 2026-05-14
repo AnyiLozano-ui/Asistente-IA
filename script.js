@@ -832,8 +832,22 @@ function nuevaPalabra() {
          <span style="font-size: 45px;">${palabraActual}</span>`
 
     hablar(
-        `Escucha despacio Ximena. ${silabasActuales}. Ahora di la palabra ${palabraActual}`
+        `Escucha despacio Ximena. ${silabasActuales}. Ahora di la palabra ${palabraActual}`,
+        () => {
+            document.getElementById('botonEscuchar').style.display = 'block'
+        },
+        false
     )
+}
+
+function iniciarEscucha() {
+    document.getElementById('botonEscuchar').style.display = 'none'
+    try {
+        recognition.start()
+        escuchando = true
+    } catch (e) {
+        console.error('Error iniciando reconocimiento:', e)
+    }
 }
 
 function nuevaSilaba() {
