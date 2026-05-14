@@ -536,6 +536,8 @@ function mostrarGridOperaciones(tipo) {
     const juegoOpciones = document.getElementById('juegoOpciones')
     const titulo = document.getElementById('tituloActividad')
 
+    if (pregunta) pregunta.style.display = 'block'
+
     const tituloTipo = tipo === 'suma' ? '➕ Sumas' : tipo === 'resta' ? '➖ Restas' : '🎲 Mixto'
     if (titulo) {
         titulo.textContent = tituloTipo
@@ -570,6 +572,9 @@ function resolverOperacion(num1, num2, tipo, resultado, indice) {
     const pregunta = document.getElementById('pregunta')
     const juegoOpciones = document.getElementById('juegoOpciones')
     const titulo = document.getElementById('tituloActividad')
+
+    if (pregunta) pregunta.style.display = 'block'
+    if (juegoOpciones) juegoOpciones.style.display = 'block'
 
     const tituloTipo = tipoOperacionActual === 'suma' ? '➕ Sumas' : tipoOperacionActual === 'resta' ? '➖ Restas' : '🎲 Mixto'
     if (titulo) {
@@ -1173,6 +1178,9 @@ function validarSilabas(texto) {
 function verificarRespuesta(respuestaUsuario, respuestaCorrecta, tipo) {
     const juegoOpciones = document.getElementById('juegoOpciones')
     const pregunta = document.getElementById('pregunta')
+
+    if (pregunta) pregunta.style.display = 'block'
+    if (juegoOpciones) juegoOpciones.style.display = 'block'
 
     if (respuestaUsuario === respuestaCorrecta) {
         puntaje++
