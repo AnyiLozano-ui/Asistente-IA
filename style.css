@@ -1005,32 +1005,36 @@ body {
 /* RESPONSIVE JUEGOS MENU - MÓVIL */
 @media (max-width: 480px) {
     #juegos {
-        padding-top: 320px;
+        padding-top: 30px;
         padding-bottom: 60px;
         justify-content: flex-start;
     }
-
+    
     .menu-header {
         margin-bottom: 25px;
         margin-top: 60px;
     }
-
+    
     .menu-header h1 {
         font-size: 24px;
         margin-bottom: 10px;
     }
-
+    
     .menu-header p {
         font-size: 14px;
         margin: 8px 0 0;
     }
-
+    
     .juegos-grid {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex !important;
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         gap: 15px;
         max-width: 100%;
-        padding: 0 12px;
+        padding: 0 12px 15px 12px;
         margin: 0 auto;
+        scroll-snap-type: x mandatory;
     }
 
     .juego-card {
@@ -1038,22 +1042,25 @@ body {
         padding: 20px 15px;
         border-radius: 20px;
         box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.12);
+        min-width: calc(100% - 30px);
+        flex-shrink: 0;
+        scroll-snap-align: start;
     }
-
+    
     .juego-icono {
         font-size: 48px;
         margin-bottom: 10px;
     }
-
+    
     .juego-card h3 {
         font-size: 16px;
         margin: 8px 0 3px;
     }
-
+    
     .juego-card p {
         font-size: 12px;
     }
-
+    
     .juego-card:hover {
         transform: translateY(-6px) scale(1.03);
     }
@@ -1066,41 +1073,41 @@ body {
         padding-bottom: 50px;
         justify-content: flex-start;
     }
-
+    
     .menu-header {
         margin-bottom: 30px;
     }
-
+    
     .menu-header h1 {
         font-size: 28px;
     }
-
+    
     .menu-header p {
         font-size: 16px;
     }
-
+    
     .juegos-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
         max-width: 95%;
         padding: 0 15px;
     }
-
+    
     .juego-card {
         min-height: 180px;
         padding: 25px 18px;
     }
-
+    
     .juego-icono {
         font-size: 56px;
         margin-bottom: 12px;
     }
-
+    
     .juego-card h3 {
         font-size: 18px;
         margin: 10px 0 4px;
     }
-
+    
     .juego-card p {
         font-size: 13px;
     }
