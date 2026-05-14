@@ -604,29 +604,34 @@ body {
 /* RESPONSIVE SUMAS Y RESTAS - TABLET */
 @media (min-width: 769px) and (max-width: 1024px) {
     .activity-screen.tipo-matematicas {
-        padding-top: 100px;
-        padding-bottom: 50px;
+        padding-top: 120px;
+        padding-bottom: 70px;
     }
 
     .activity-screen.tipo-matematicas .contenedor-juego {
         max-width: 650px;
+        padding: 25px 15px;
+        margin-bottom: 30px;
     }
 
     .activity-screen.tipo-matematicas #tituloActividad {
         font-size: 32px;
-        margin-bottom: 22px;
+        margin-bottom: 25px;
+        margin-top: 20px;
     }
 
     .activity-screen.tipo-matematicas .question {
         font-size: 19px;
-        padding: 28px 30px !important;
-        gap: 16px !important;
+        padding: 32px 35px !important;
+        gap: 18px !important;
+        margin-bottom: 15px;
     }
 
     .activity-screen.tipo-matematicas .score {
         font-size: 16px;
         padding: 15px;
-        margin-top: 8px !important;
+        margin-top: 10px !important;
+        margin-bottom: 20px;
     }
 }
 
